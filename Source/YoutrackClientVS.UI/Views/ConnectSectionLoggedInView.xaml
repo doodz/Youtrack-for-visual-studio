@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="YouTrackClientVS.UI.Views.ConnectSectionLoggedInView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModels="clr-namespace:YouTrackClientVS.Infrastructure.ViewModels;assembly=YouTrackClientVS.Infrastructure"
+             xmlns:styles="clr-namespace:YouTrackClientVS.UI.Styles"
+             xmlns:views="clr-namespace:YouTrackClientVS.UI.Views"
+             xmlns:prop="clr-namespace:YouTrackClientVS.UI"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance viewModels:ConnectSectionViewModel,IsDesignTimeCreatable=False}">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <styles:SharedResourceDictionary
+                    Source="pack://application:,,,/YouTrackClientVS.UI;component/Styles/SharedDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+
+        <TextBlock Grid.Row="1" Margin="5" TextWrapping="Wrap">
+            <Run Text="Welcome" />
+            <Run Text="{Binding ConnectionData.UserName,Mode=OneWay,StringFormat={}{0}.}" FontWeight="SemiBold" />
+            <LineBreak />
+            <Run Text="You are connected to" />
+            <Run Text="{Binding ConnectionData.Host,Mode=OneWay,TargetNullValue=https://www.jetbrains.com}"
+                 FontWeight="SemiBold" />
+        </TextBlock>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="5">
+            <Button Style="{StaticResource ActionLinkButton}" KeyboardNavigation.TabIndex="0"
+                    Content="{x:Static prop:Resources.Clone}" Command="{Binding OpenCloneCommand}" />
+            <Separator Style="{StaticResource VerticalSeparator}" />
+            <Button Style="{StaticResource ActionLinkButton}" KeyboardNavigation.TabIndex="1"
+                    Content="{x:Static prop:Resources.Create}" Command="{Binding OpenCreateCommand}" />
+            <Separator Style="{StaticResource VerticalSeparator}" />
+            <Button Style="{StaticResource ActionLinkButton}" KeyboardNavigation.TabIndex="2"
+                    Content="{x:Static prop:Resources.Logout}" Command="{Binding LogoutCommand}" />
+        </StackPanel>
+
+        <views:ConnectSectionProjectsView Grid.Row="3" />
+    </Grid>
+</UserControl>

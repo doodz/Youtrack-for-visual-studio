@@ -1,0 +1,24 @@
+{
+  "description": "description",
+  "title": "master",
+  "toRef": {
+    "id": "4",
+    "isDefault": false
+  },
+  "fromRef": {
+    "id": "master",
+    "isDefault": false
+  },
+  "state": 0,
+  "createdDate": 0,
+  "updatedDate": 0,
+  "id": 1,
+  "reviewers": [
+    {
+      "approved": false,
+      "user": {
+        "name": "MistyK"
+      }
+    }
+  ]
+}

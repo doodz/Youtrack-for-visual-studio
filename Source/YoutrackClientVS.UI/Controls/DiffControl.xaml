@@ -1,0 +1,115 @@
+﻿<UserControl x:Class="YouTrackClientVS.UI.Controls.DiffControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
+             xmlns:parseDiff="clr-namespace:ParseDiff;assembly=ParseDiff"
+           
+             xmlns:viewModels="clr-namespace:YouTrackClientVS.Infrastructure.ViewModels;assembly=YouTrackClientVS.Infrastructure"
+             xmlns:infrastructure="clr-namespace:YouTrackClientVS.Infrastructure;assembly=YouTrackClientVS.Infrastructure"
+             xmlns:styles="clr-namespace:YouTrackClientVS.UI.Styles"
+             xmlns:controls1="clr-namespace:YouTrackClientVS.UI.Controls"
+             xmlns:diffControlUtils="clr-namespace:YouTrackClientVS.UI.Controls.DiffControlUtils"
+             xmlns:bindings="clr-namespace:YouTrackClientVS.UI.Bindings"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" x:Name="CurrentControl"
+             d:DataContext="{d:DesignInstance viewModels:DiffWindowControlViewModel,IsDesignTimeCreatable=False}"
+             >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <styles:SharedResourceDictionary Source="pack://application:,,,/YouTrackClientVS.UI;component/Styles/SharedDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.Resources>
+            <DataTemplate DataType="{x:Type infrastructure:AddModeModel}">
+                <controls1:AddCommentView 
+                                      AddCommand="{Binding ElementName=CurrentControl,Path= DataContext.CommentViewModel.AddInlineCommentCommand}"
+                                      CurrentText="{Binding ElementName=CurrentControl, Path= DataContext.CommentViewModel.InlineCommentText, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                      ButtonLabelContent="Comment"
+                                      AddCommandParameter="{Binding Inline}"
+                />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type infrastructure:CommentTreeCollection}">
+                    <Grid Margin="5,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <controls1:CommentsTreeView 
+                        CommentTree="{Binding Elements}"
+                        DeleteCommand="{Binding ElementName=CurrentControl,Path= DataContext.CommentViewModel.DeleteCommentCommand}"
+                        ReplyCommand="{Binding ElementName=CurrentControl,Path= DataContext.CommentViewModel.ReplyCommentCommand}"
+                        EditCommand="{Binding ElementName=CurrentControl,Path= DataContext.CommentViewModel.EditCommentCommand}"
+                        UserName ="{Binding ElementName=CurrentControl,Path= DataContext.CommentViewModel.CurrentUserName}"
+                        TrackedItem ="{Binding ElementName=CurrentControl,Path= DataContext.CommentViewModel.LastEditedComment}"
+                        />
+                    </Grid>
+            </DataTemplate>
+
+
+            <DataTemplate DataType="{x:Type parseDiff:ChunkDiff}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <avalonedit:TextEditor x:Name="TextEditorControl" 
+                                           diffControlUtils:AvalonEditBehaviour.TextBinding="{Binding Text}" 
+                                           diffControlUtils:AvalonEditBehaviour.IsDiffEditor="True"
+                                           diffControlUtils:AvalonEditBehaviour.FileDiff="{Binding ElementName=CurrentControl,Path=DataContext.FileDiff}"
+                                           diffControlUtils:AvalonEditBehaviour.Theme="{Binding ElementName=CurrentControl,Path=DataContext.CurrentTheme}"
+                                           diffControlUtils:AvalonEditBehaviour.EnterAddModeCommand="{Binding ElementName=CurrentControl,Path=DataContext.EnterAddModeCommand}"
+                                           HorizontalAlignment="Stretch"
+                                           VerticalScrollBarVisibility="Hidden"
+                                           HorizontalScrollBarVisibility="Hidden"
+                                           FontFamily="Consolas"
+                                           FontSize="10pt" 
+                                           IsReadOnly="True"
+                                           Foreground="{Binding ElementName=Tb,Path=Foreground}"
+                                        >
+                    </avalonedit:TextEditor>
+
+                    <Separator Margin="0,10" Grid.Row="1"/>
+                </Grid>
+
+            </DataTemplate>
+        </Grid.Resources>
+
+
+        <TextBlock Visibility="Collapsed" x:Name="Tb"/>
+        <!--TODO A HACK TO USE TB FOREGROUND-->
+
+        <Border Grid.Row="0" BorderThickness="0,0,0,0.1" BorderBrush="Black" Margin="5">
+            <controls1:AddCommentView 
+                                     AddCommand="{Binding CommentViewModel.AddFileLevelCommentCommand}"
+                                     CurrentText="{bindings:ValidatedBinding CommentViewModel.FileLevelCommentText,Mode=TwoWay}"
+                                     AddCommandParameter="{Binding FileLevelInline}"
+                                     ButtonLabelContent="Comment"
+            />
+        </Border>
+
+        <ScrollViewer Grid.Row="1" PreviewMouseWheel="UIElement_OnPreviewMouseWheel">
+            <ItemsControl ItemsSource="{Binding DisplayedModels}">
+                <ItemsControl.Resources>
+                    <Style TargetType="{x:Type ListBoxItem}">
+                        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </ItemsControl.Resources>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

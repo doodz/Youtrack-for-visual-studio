@@ -1,0 +1,107 @@
+﻿<controls:MetroWindow x:Class="YouTrackClientVS.UI.Views.LoginDialogView"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                     xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:viewModels="clr-namespace:YouTrackClientVS.Infrastructure.ViewModels;assembly=YouTrackClientVS.Infrastructure"
+                      xmlns:styles="clr-namespace:YouTrackClientVS.UI.Styles"
+                      xmlns:bindings="clr-namespace:YouTrackClientVS.UI.Bindings"
+                      xmlns:controls2="clr-namespace:YouTrackClientVS.UI.Controls"
+                      xmlns:ui="clr-namespace:YouTrackClientVS.UI"
+                      mc:Ignorable="d"
+                      Title=""
+                      Style="{DynamicResource DefaultMetroWindowStyle}"
+                      ShowTitleBar="true"
+                      BorderThickness="0"
+                      GlowBrush="Black"
+                      WindowStartupLocation="CenterOwner"
+                      WindowTitleBrush="#004f83"
+                      Background="#004f83"
+                      Width="400"
+                      Height="400"
+                      FocusManager.FocusedElement="{Binding ElementName=HostBox}"
+                      d:DesignHeight="300" d:DesignWidth="300"
+                      d:DataContext="{d:DesignInstance viewModels:LoginDialogViewModel,IsDesignTimeCreatable=False}">
+    <controls:MetroWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <styles:SharedResourceDictionary
+                    Source="pack://application:,,,/YouTrackClientVS.UI;component/Styles/SharedDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </controls:MetroWindow.Resources>
+
+
+    <Grid Margin="20,20,20,5">
+        <Grid.Resources>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                <Setter Property="Margin" Value="5" />
+            </Style>
+            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                <Setter Property="Margin" Value="5" />
+                <Setter Property="Padding" Value="10,0" />
+            </Style>
+            <Style x:Key="ConnectButtonStyle" TargetType="{x:Type Button}"
+                   BasedOn="{StaticResource MetroFlatButton}" />
+
+
+            <!--<BitmapImage x:Key="YouTrackLogo"
+                         UriSource="pack://application:,,,/YouTrackClientVS.UI;component/Images/YouTrack_800x320_card.png" />-->
+
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+       
+            <Image Width="275"
+                   Height="100"
+                   VerticalAlignment="Center"
+                   Margin="0"
+                   Source="pack://application:,,,/YouTrackClientVS.UI;component/Images/YouTrack_800x320_card.png"/>
+
+        <Label Content="Please log in." Grid.Row="1" Foreground="White" HorizontalAlignment="Center" FontWeight="Bold" />
+
+        <Grid Grid.Row="2" Margin="50,0,50,5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBox x:Name="HostBox"
+                     Margin="3" Grid.Row="2" Style="{StaticResource ValidatedTextBoxStyle}"
+                     controls:TextBoxHelper.Watermark="Server url" Text="{bindings:ValidatedBinding Host}" />
+            <TextBox Margin="3" Grid.Row="3" Style="{StaticResource ValidatedTextBoxStyle}"
+                     controls:TextBoxHelper.Watermark="Login" Text="{bindings:ValidatedBinding Login}" />
+            <PasswordBox
+                Margin="3"
+                x:Name="PasswordBox"
+                PasswordChanged="PasswordBox_OnPasswordChanged"
+                Grid.Row="4"
+                controls:TextBoxHelper.Watermark="Password"
+                bindings:PasswordHelper.Attach="True"
+                bindings:PasswordHelper.Password="{bindings:ValidatedBinding Password,Mode=TwoWay}">
+                <PasswordBox.Style>
+                    <Style TargetType="PasswordBox" BasedOn="{StaticResource {x:Type PasswordBox}}">
+                        <Setter Property="Validation.ErrorTemplate" Value="{StaticResource ErrorDataTemplate}" />
+                    </Style>
+                </PasswordBox.Style>
+            </PasswordBox>
+
+            <Button Margin="3" IsDefault="True" Style="{StaticResource ConnectButtonStyle}" IsEnabled="True"
+                    Grid.Row="5" Command="{Binding ConnectCommand}" Content="{x:Static ui:Resources.Connect}"
+                    HorizontalAlignment="Center" />
+            <controls2:ErrorView Grid.Row="6" Grid.Column="0" />
+
+        </Grid>
+    </Grid>
+</controls:MetroWindow>

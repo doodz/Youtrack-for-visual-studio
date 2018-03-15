@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8D9A6680-2F77-485E-B90D-70E70A3444CF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>YouTrack.REST.API</RootNamespace>
+    <AssemblyName>YouTrack.REST.API</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.2.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AutoMapper.6.2.2\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.CoreUtility, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.CoreUtility.15.5.27130\lib\net45\Microsoft.VisualStudio.CoreUtility.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.ImageCatalog, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.ImageCatalog.15.5.27130\lib\net45\Microsoft.VisualStudio.ImageCatalog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Imaging, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Imaging.15.5.27130\lib\net45\Microsoft.VisualStudio.Imaging.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.OLE.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.OLE.Interop.7.10.6071\lib\Microsoft.VisualStudio.OLE.Interop.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.15.0, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Shell.15.0.15.5.27130\lib\net45\Microsoft.VisualStudio.Shell.15.0.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Framework, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Shell.Framework.15.5.27130\lib\net45\Microsoft.VisualStudio.Shell.Framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Shell.Interop.7.10.6072\lib\net11\Microsoft.VisualStudio.Shell.Interop.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.10.0, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Shell.Interop.10.0.10.0.30320\lib\net20\Microsoft.VisualStudio.Shell.Interop.10.0.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.11.0, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Shell.Interop.11.0.11.0.61031\lib\net20\Microsoft.VisualStudio.Shell.Interop.11.0.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.15.3.DesignTime, Version=15.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Shell.Interop.15.3.DesignTime.15.0.26929\lib\net20\Microsoft.VisualStudio.Shell.Interop.15.3.DesignTime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.8.0, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Shell.Interop.8.0.8.0.50728\lib\net11\Microsoft.VisualStudio.Shell.Interop.8.0.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.9.0, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Shell.Interop.9.0.9.0.30730\lib\net11\Microsoft.VisualStudio.Shell.Interop.9.0.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TextManager.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.TextManager.Interop.7.10.6071\lib\net11\Microsoft.VisualStudio.TextManager.Interop.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TextManager.Interop.8.0, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.TextManager.Interop.8.0.8.0.50728\lib\net11\Microsoft.VisualStudio.TextManager.Interop.8.0.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Threading, Version=15.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Threading.15.5.32\lib\net46\Microsoft.VisualStudio.Threading.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Utilities, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Utilities.15.5.27130\lib\net46\Microsoft.VisualStudio.Utilities.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Validation, Version=15.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Validation.15.3.32\lib\net45\Microsoft.VisualStudio.Validation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=106.2.1.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RestSharp.106.2.1\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.ValueTuple.4.4.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Authentication\AnonymousAuthenticator.cs" />
+    <Compile Include="Authentication\Authenticator.cs" />
+    <Compile Include="Authentication\AuthenticationType.cs" />
+    <Compile Include="Authentication\Credentials.cs" />
+    <Compile Include="Authentication\OAuthAuthenticator.cs" />
+    <Compile Include="Clients\Standard\IssuesClient.cs" />
+    <Compile Include="Clients\Standard\ProjectsClient.cs" />
+    <Compile Include="Clients\Standard\UserManagementClient.cs" />
+    <Compile Include="Exceptions\UnauthorizedConnectionException.cs" />
+    <Compile Include="Helpers\IssuesUrls.cs" />
+    <Compile Include="Helpers\ProjectsUrls.cs" />
+    <Compile Include="Helpers\UsersUrls.cs" />
+    <Compile Include="Helpers\UserUrls.cs" />
+    <Compile Include="Interfaces\IAgileBoardClient.cs" />
+    <Compile Include="Interfaces\IAttachFileQueryBuilder.cs" />
+    <Compile Include="Interfaces\IIssueQueryBuilder.cs" />
+    <Compile Include="Interfaces\IIssuesClient.cs" />
+    <Compile Include="Interfaces\IProjectCustomFieldsClient.cs" />
+    <Compile Include="Interfaces\IProjectsClient.cs" />
+    <Compile Include="Interfaces\ITimeTrackingClient.cs" />
+    <Compile Include="Interfaces\ITimeTrackingManagementClient.cs" />
+    <Compile Include="Interfaces\IUserManagementClient.cs" />
+    <Compile Include="Models\Standard\Assignee.cs" />
+    <Compile Include="Models\Standard\Attachment.cs" />
+    <Compile Include="Models\Standard\AttachmentCollectionWrapper.cs" />
+    <Compile Include="Models\Standard\CustomField.cs" />
+    <Compile Include="Models\Standard\Field.cs" />
+    <Compile Include="Models\Standard\Group.cs" />
+    <Compile Include="Models\Standard\Issue.cs" />
+    <Compile Include="Models\Standard\ObjectFieldList.cs" />
+    <Compile Include="Models\Standard\Project.cs" />
+    <Compile Include="Models\Standard\SubValue.cs" />
+    <Compile Include="Models\Standard\SystemWideTimeTrackingSettings.cs" />
+    <Compile Include="Models\Standard\TimeTrackingSettings.cs" />
+    <Compile Include="Models\Standard\UserCollectionWrapper.cs" />
+    <Compile Include="Models\Standard\WorkItem.cs" />
+    <Compile Include="Models\Standard\WorkType.cs" />
+    <Compile Include="Models\Standard\YouTrackColor.cs" />
+    <Compile Include="QueryBuilders\AttachFileQueryBuilder.cs" />
+    <Compile Include="QueryBuilders\IssueQueryBuilder.cs" />
+    <Compile Include="Serializers\Json\JTokenTypeUtil.cs" />
+    <Compile Include="Serializers\Json\ProjectVersionConverter.cs" />
+    <Compile Include="Serializers\Json\TimeSpanMinutesConverter.cs" />
+    <Compile Include="Serializers\Json\UnixDateTimeOffsetConverter.cs" />
+    <Compile Include="Clients\ApiClient.cs" />
+    <Compile Include="Clients\Enterprise\EnterpriseRepositoriesClient.cs" />
+    <Compile Include="Clients\Enterprise\EnterpriseTeamsClient.cs" />
+    <Compile Include="Clients\Enterprise\EnterpriseUserClient.cs" />
+    <Compile Include="Clients\Enterprise\EnterprisePullRequestsClient.cs" />
+    <Compile Include="Interfaces\IYouTrackRestClient.cs" />
+    <Compile Include="Interfaces\IEnterpriseYouTrackRestClient.cs" />
+    <Compile Include="Mappings\Converters\RepositoryV1TypeConverter.cs" />
+    <Compile Include="Models\Enterprise\EnterpriseAnchor.cs" />
+    <Compile Include="Models\Enterprise\EnterpriseBrowse.cs" />
+    <Compile Include="Models\Enterprise\EnterpriseBrowseText.cs" />
+    <Compile Include="Models\Enterprise\FileDiffType.cs" />
+    <Compile Include="Models\Standard\CommentV1.cs" />
+    <Compile Include="Models\Standard\DefaultBranch.cs" />
+    <Compile Include="Models\Standard\MergeRequest.cs" />
+    <Compile Include="EnterpriseYouTrackClient.cs" />
+    <Compile Include="Helpers\EnterpriseApiUrls.cs" />
+    <Compile Include="Helpers\LinqExtensions.cs" />
+    <Compile Include="Interfaces\IBitbucketClientFactory.cs" />
+    <Compile Include="Interfaces\IYouTrackClient.cs" />
+    <Compile Include="Interfaces\IPullRequestsClient.cs" />
+    <Compile Include="Interfaces\IUserClient.cs" />
+    <Compile Include="Interfaces\IRepositoriesClient.cs" />
+    <Compile Include="Interfaces\ITeamsClient.cs" />
+    <Compile Include="Clients\Standard\PullRequestsClient.cs" />
+    <Compile Include="Clients\Standard\RepositoriesClient.cs" />
+    <Compile Include="Clients\Standard\TeamsClient.cs" />
+    <Compile Include="Exceptions\AuthorizationException.cs" />
+    <Compile Include="Exceptions\ForbiddenException.cs" />
+    <Compile Include="Exceptions\RequestFailedException.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Helpers\ApiHelpers.cs" />
+    <Compile Include="Helpers\ApiUrls.cs" />
+    <Compile Include="Models\Enterprise\EnterpriseCommentActivity.cs" />
+    <Compile Include="Models\Enterprise\EnterpriseDiff.cs" />
+    <Compile Include="Models\Enterprise\EnterpriseDiffResponse.cs" />
+    <Compile Include="Models\Enterprise\EnterpriseDiffSourceDestination.cs" />
+    <Compile Include="Models\Enterprise\EnterprisePullRequestProperties.cs" />
+    <Compile Include="Models\Enterprise\EnterpriseActivity.cs" />
+    <Compile Include="Mappings\Converters\EnterpriseLinksTypeConverter.cs" />
+    <Compile Include="Mappings\Converters\EnterpriseRepositoryTypeConverter.cs" />
+    <Compile Include="Mappings\Converters\EnterpriseBranchTypeConverter.cs" />
+    <Compile Include="Mappings\Converters\EnterprisePullRequestTypeConverter.cs" />
+    <Compile Include="Mappings\Converters\EnterpriseBranchSourceTypeConverter.cs" />
+    <Compile Include="Mappings\Converters\EnterpriseParticipantTypeConverter.cs" />
+    <Compile Include="Mappings\Converters\EnterpriseCommitTypeConverter.cs" />
+    <Compile Include="Mappings\EnterpriseToStandardMappingsProfile.cs" />
+    <Compile Include="Mappings\MapperExtensions.cs" />
+    <Compile Include="Models\Enterprise\EnterpriseComment.cs" />
+    <Compile Include="Models\Enterprise\EnterpriseCommit.cs" />
+    <Compile Include="Models\Enterprise\EnterpriseBranchSource.cs" />
+    <Compile Include="Models\Enterprise\EnterpriseBranch.cs" />
+    <Compile Include="Models\Enterprise\EnterpriseError.cs" />
+    <Compile Include="Models\Enterprise\EnterpriseProject.cs" />
+    <Compile Include="Models\Enterprise\EnterpriseRepository.cs" />
+    <Compile Include="Models\Enterprise\EnterpriseLinks.cs" />
+    <Compile Include="Models\Enterprise\EnterpriseLink.cs" />
+    <Compile Include="Models\Enterprise\EnterpriseUser.cs" />
+    <Compile Include="Models\Enterprise\EnterpriseParent.cs" />
+    <Compile Include="Models\Enterprise\EnterprisePullRequest.cs" />
+    <Compile Include="Models\Enterprise\EnterprisePullRequestOptions.cs" />
+    <Compile Include="Models\Enterprise\EnterpriseParticipant.cs" />
+    <Compile Include="Models\Enterprise\Hunk.cs" />
+    <Compile Include="Models\Enterprise\Line.cs" />
+    <Compile Include="Models\Enterprise\Segment.cs" />
+    <Compile Include="Models\Standard\RepositoryPrivilege.cs" />
+    <Compile Include="Models\Standard\Author.cs" />
+    <Compile Include="Models\Standard\Branch.cs" />
+    <Compile Include="Models\Standard\Comment.cs" />
+    <Compile Include="Models\Standard\Commit.cs" />
+    <Compile Include="Models\Standard\Connection.cs" />
+    <Compile Include="Models\Standard\Content.cs" />
+    <Compile Include="Models\Enterprise\EnterpriseIteratorBasedPage.cs" />
+    <Compile Include="Models\Standard\Inline.cs" />
+    <Compile Include="Models\Standard\IteratorBasedPage.cs" />
+    <Compile Include="Models\Standard\Link.cs" />
+    <Compile Include="Models\Standard\Links.cs" />
+    <Compile Include="Models\Standard\Parent.cs" />
+    <Compile Include="Models\Standard\Participant.cs" />
+    <Compile Include="Models\Standard\PullRequest.cs" />
+    <Compile Include="Models\Standard\PullRequestOptions.cs" />
+    <Compile Include="Models\Standard\Repository.cs" />
+    <Compile Include="Models\Standard\RepositoryV1.cs" />
+    <Compile Include="Models\Standard\Source.cs" />
+    <Compile Include="Models\Standard\Team.cs" />
+    <Compile Include="Models\Standard\User.cs" />
+    <Compile Include="Models\Standard\UserShort.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryBuilders\EnterprisePullRequestQueryBuilder.cs" />
+    <Compile Include="Interfaces\IPullRequestQueryBuilder.cs" />
+    <Compile Include="QueryBuilders\IQueryBuilder.cs" />
+    <Compile Include="QueryBuilders\Operators.cs" />
+    <Compile Include="QueryBuilders\PullRequestQueryBuilder.cs" />
+    <Compile Include="QueryBuilders\QueryBuilder.cs" />
+    <Compile Include="QueryBuilders\QueryString.cs" />
+    <Compile Include="Serializers\IJsonSerializer.cs" />
+    <Compile Include="Serializers\NewtonsoftJsonSerializer.cs" />
+    <Compile Include="Wrappers\YouTrackRestClient.cs" />
+    <Compile Include="Wrappers\YouTrackRestClientBase.cs" />
+    <Compile Include="Wrappers\YouTrackRestRequest.cs" />
+    <Compile Include="Wrappers\EnterpriseYouTrackRestClient.cs" />
+    <Compile Include="Models\Enterprise\EnterpriseErrorWrapper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ParseDiff\ParseDiff.csproj">
+      <Project>{65672e92-c353-4d21-a098-6a5beb42cdf4}</Project>
+      <Name>ParseDiff</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\packages\Microsoft.VisualStudio.SDK.EmbedInteropTypes.15.0.16\build\Microsoft.VisualStudio.SDK.EmbedInteropTypes.targets" Condition="Exists('..\..\packages\Microsoft.VisualStudio.SDK.EmbedInteropTypes.15.0.16\build\Microsoft.VisualStudio.SDK.EmbedInteropTypes.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Ce projet fait référence à des packages NuGet qui sont manquants sur cet ordinateur. Utilisez l'option de restauration des packages NuGet pour les télécharger. Pour plus d'informations, consultez http://go.microsoft.com/fwlink/?LinkID=322105. Le fichier manquant est : {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\Microsoft.VisualStudio.SDK.EmbedInteropTypes.15.0.16\build\Microsoft.VisualStudio.SDK.EmbedInteropTypes.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.VisualStudio.SDK.EmbedInteropTypes.15.0.16\build\Microsoft.VisualStudio.SDK.EmbedInteropTypes.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,111 @@
+﻿<UserControl x:Class="YouTrackClientVS.UI.Views.YouTrackIssuesWindowContainer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:models="clr-namespace:YouTrackClientVS.Contracts.Models;assembly=YouTrackClientVS.Contracts"
+             xmlns:viewModels="clr-namespace:YouTrackClientVS.Infrastructure.ViewModels;assembly=YouTrackClientVS.Infrastructure"
+             xmlns:styles="clr-namespace:YouTrackClientVS.UI.Styles"
+             xmlns:converters="clr-namespace:YouTrackClientVS.UI.Converters"
+             xmlns:controls1="clr-namespace:YouTrackClientVS.UI.Controls"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance viewModels:YouTrackIssuesWindowContainerViewModel,IsDesignTimeCreatable=False}">
+    <Grid>
+        <Grid.Resources>
+            <system:Boolean x:Key="FalseValue">False</system:Boolean>
+            <system:Boolean x:Key="TrueValue">True</system:Boolean>
+        </Grid.Resources>
+
+
+        <Grid>
+            <Grid.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <styles:SharedResourceDictionary
+                            Source="pack://application:,,,/YouTrackClientVS.UI;component/Styles/SharedDictionary.xaml" />
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+
+            <StackPanel Orientation="Horizontal">
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Setter Property="Background" Value="#CED5E4" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding CurrentTheme}" Value="{x:Static models:Theme.Dark}">
+                                <Setter Property="Background" Value="#2D2D30" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+                <StackPanel.Resources>
+                    <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="Height" Value="22" />
+                        <Setter Property="Width" Value="22" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="Padding" Value="2" />
+                        <Setter Property="Margin" Value="0,2" />
+                    </Style>
+                </StackPanel.Resources>
+
+                <Button Command="{Binding PrevCommand}" Margin="0,5">
+                    <Image Source="../Images/arrow_back.png"
+
+                           Width="16"
+                           Height="16"
+                           SnapsToDevicePixels="True" />
+                </Button>
+                <Button Command="{Binding NextCommand}" Margin="0,5">
+                    <Image Source="../Images/arrow_forward.png"
+                           Width="16"
+                           Height="16"
+                           SnapsToDevicePixels="True" />
+                </Button>
+            </StackPanel>
+
+            <StackPanel Grid.Row="0" HorizontalAlignment="Right" Canvas.ZIndex="10" Orientation="Horizontal"
+                        DataContext="{Binding ConfirmationViewModel}"
+                        Visibility="{Binding Event, Converter={converters:NullToNonVisibilityConverter}}">
+                <TextBlock Text="{Binding Event.Message}" VerticalAlignment="Center" />
+                <Button Margin="5,5" Content="Yes" Command="{Binding SetResultCommand}"
+                        CommandParameter="{StaticResource TrueValue}" />
+                <Button Margin="0,5,5,5" Content="No" Command="{Binding SetResultCommand}"
+                        CommandParameter="{StaticResource FalseValue}" />
+            </StackPanel>
+
+            <Grid Grid.Row="1" Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <WrapPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding CurrentViewModel.PageTitle,Mode=OneWay}" FontSize="15"
+                               FontWeight="SemiBold" TextWrapping="Wrap" />
+                    <Separator Style="{StaticResource VerticalSeparator}" Margin="5,0" />
+                    <TextBlock Text="{Binding ActiveProject}" FontSize="11" VerticalAlignment="Center"
+                               Foreground="#6D6D6D" />
+                </WrapPanel>
+            </Grid>
+
+            <controls1:ErrorView Background="#FEFEE0" Grid.Row="2" DataContext="{Binding CurrentViewModel}" />
+
+            <Separator Grid.Row="3" Margin="0,2" />
+
+            <ContentControl Grid.Row="4" Content="{Binding CurrentView}" />
+        </Grid>
+    </Grid>
+</UserControl>
