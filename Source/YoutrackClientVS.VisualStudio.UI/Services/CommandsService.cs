@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
+using ReactiveUI;
+using System;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Design;
 using System.IO;
 using System.Reactive.Linq;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
-using ReactiveUI;
 using YouTrackClientVS.Contracts.Interfaces.Services;
 using YouTrackClientVS.Contracts.Interfaces.ViewModels;
 using YouTrackClientVS.Contracts.Interfaces.Views;
@@ -168,7 +168,7 @@ namespace YouTrackClientVS.VisualStudio.UI.Services
 
         private static (string file1, string file2) CreateTempFiles(string content1, string content2)
         {
-            var tempDir = Path.Combine(Path.GetTempPath(), "GitClientVs");
+            var tempDir = Path.Combine(Path.GetTempPath(), "YouTrackClientVs");
             Directory.CreateDirectory(tempDir);
 
             var tempPath1 = Path.Combine(tempDir, Guid.NewGuid().ToString());

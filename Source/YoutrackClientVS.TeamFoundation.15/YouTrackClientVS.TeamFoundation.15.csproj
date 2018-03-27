@@ -190,6 +190,9 @@
     <Compile Include="..\YouTrackClientVS.TeamFoundation.14\Sections\ConnectSection.cs">
       <Link>Sections\ConnectSection.cs</Link>
     </Compile>
+    <Compile Include="..\YoutrackClientVS.TeamFoundation.14\Sections\PendingChangesSection.cs">
+      <Link>Sections\PendingChangesSection.cs</Link>
+    </Compile>
     <Compile Include="..\YouTrackClientVS.TeamFoundation.14\Sections\PublishSection.cs">
       <Link>Sections\PublishSection.cs</Link>
     </Compile>

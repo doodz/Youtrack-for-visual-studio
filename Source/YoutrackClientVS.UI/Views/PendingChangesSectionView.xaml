@@ -1,0 +1,80 @@
+﻿<UserControl x:Class="YouTrackClientVS.UI.Views.PendingChangesSectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:YouTrackClientVS.UI.Views"
+             xmlns:controls="clr-namespace:YouTrackClientVS.UI.Controls"
+             xmlns:ui="clr-namespace:YouTrackClientVS.UI"
+             xmlns:viewModels="clr-namespace:YouTrackClientVS.Infrastructure.ViewModels;assembly=YouTrackClientVS.Infrastructure"
+             xmlns:controls1="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:styles="clr-namespace:YouTrackClientVS.UI.Styles"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance viewModels:PendingChangesSectionViewModel,IsDesignTimeCreatable=False}"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <styles:SharedResourceDictionary Source="pack://application:,,,/YouTrackClientVS.UI;component/Styles/SharedDictionary.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Combobox.xaml" />
+
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <!--<controls:ProgressBar Height="0" ProgressContent="{Binding ElementName=StackContent}" />-->
+        <StackPanel x:Name="StackContent">
+            <TextBlock
+                       Text="{x:Static ui:Resources.PendingChangesSectionMessage}"
+                       FontWeight="Light" />
+            <ComboBox  
+                       Margin="0,10,0,0"
+                      controls1:TextBoxHelper.UseFloatingWatermark="True"
+                      controls1:TextBoxHelper.Watermark="Project"
+                      IsEditable="True"
+                      MaxDropDownHeight="125"
+                       DisplayMemberPath="Name"
+                      
+                       Style="{DynamicResource VirtualisedMetroComboBox}"
+                      ItemsSource="{Binding LocalProjects,Mode=OneWay}"
+                      SelectedItem="{Binding SelectedProject,Mode=TwoWay}" />
+            <ComboBox 
+                Margin="0,10,0,0"
+                      controls1:TextBoxHelper.UseFloatingWatermark="True"
+                      controls1:TextBoxHelper.Watermark="Issue"
+                      IsEditable="True"
+                      MaxDropDownHeight="125"
+                      DisplayMemberPath="Id"
+                      Style="{DynamicResource VirtualisedMetroComboBox}"
+                      ItemsSource="{Binding LocalIssues,Mode=OneWay}"
+                      SelectedItem="{Binding SelectedIssue,Mode=TwoWay}" />
+            <ComboBox  
+                       Margin="0,10,0,0"
+                      controls1:TextBoxHelper.UseFloatingWatermark="True"
+                      controls1:TextBoxHelper.Watermark="Stats"
+                      IsEditable="True"
+                      MaxDropDownHeight="125"
+                      Style="{DynamicResource VirtualisedMetroComboBox}"
+                      ItemsSource="{Binding Stats,Mode=OneWay}"
+                      SelectedItem="{Binding SelectedStats,Mode=TwoWay}" />
+            <StackPanel Grid.Row="2"
+                        Orientation="Horizontal"
+                        Margin="5">
+                <Button Style="{StaticResource ActionLinkButton}"
+                        VerticalAlignment="Center"
+                    Margin="0,0,5,0"
+                    Command="{Binding UpdateTicketCommand}"
+                    HorizontalAlignment="Right"
+                    Content="{x:Static ui:Resources.UpdateTicket}" />
+                <Separator Style="{StaticResource VerticalSeparator}" />
+                <Button Style="{StaticResource ActionLinkButton}"
+                    VerticalAlignment="Center"
+                    Margin="0,0,5,0"
+                    Command="{Binding UpdateCommitCommand}"
+                    HorizontalAlignment="Right"
+                    Content="{x:Static ui:Resources.UpdateCommit}" />
+</StackPanel>
+            <controls:ErrorView/>
+        </StackPanel>
+        </Grid>
+</UserControl>

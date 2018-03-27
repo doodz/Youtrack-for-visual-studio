@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReactiveUI;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
@@ -6,7 +7,6 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using ReactiveUI;
 using YouTrackClientVS.Contracts.Events;
 using YouTrackClientVS.Contracts.Interfaces;
 using YouTrackClientVS.Contracts.Interfaces.Services;
@@ -273,13 +273,6 @@ namespace YouTrackClientVS.Infrastructure.ViewModels
         {
             var commits = (await _youTrackClientService.GetPullRequestCommits(id)).ToList();
             PullRequestDiffViewModel.AddCommits(commits);
-        }
-
-        private async Task CreateDiffContent(long id)
-        {
-            var fileDiffs = (await _youTrackClientService.GetPullRequestDiff(id)).ToList();
-
-            PullRequestDiffViewModel.AddFileDiffs(fileDiffs);
         }
 
         private void CreatePullRequestCommands(GitPullRequest pullRequest)

@@ -1,7 +1,7 @@
 ﻿// <copyright file="TeamExplorerBaseSection.cs" company="Microsoft Corporation">Copyright Microsoft Corporation. All Rights Reserved. This code released under the terms of the Microsoft Public License (MS-PL, http://opensource.org/licenses/ms-pl.html.) This is sample code only, do not use in production environments.</copyright>
 
-using System;
 using Microsoft.TeamFoundation.Controls;
+using System;
 using YouTrackClientVS.Contracts.Interfaces;
 
 namespace YouTrackClientVS.TeamFoundation.TeamFoundation
@@ -26,55 +26,35 @@ namespace YouTrackClientVS.TeamFoundation.TeamFoundation
         {
             get => _title;
 
-            set
-            {
-                _title = value;
-                RaisePropertyChanged(nameof(Title));
-            }
+            set => SetProperty(ref _title, value);
         }
 
         public object SectionContent
         {
             get => _sectionContent;
 
-            set
-            {
-                _sectionContent = value;
-                RaisePropertyChanged(nameof(SectionContent));
-            }
+            set => SetProperty(ref _sectionContent, value);
         }
 
         public bool IsVisible
         {
             get => _isVisible;
 
-            set
-            {
-                _isVisible = value;
-                RaisePropertyChanged(nameof(IsVisible));
-            }
+            set => SetProperty(ref _isVisible, value);
         }
 
         public bool IsExpanded
         {
             get => _isExpanded;
 
-            set
-            {
-                _isExpanded = value;
-                RaisePropertyChanged(nameof(IsExpanded));
-            }
+            set => SetProperty(ref _isExpanded, value);
         }
 
         public bool IsBusy
         {
             get => _isBusy;
 
-            set
-            {
-                _isBusy = value;
-                RaisePropertyChanged(nameof(IsBusy));
-            }
+            set => SetProperty(ref _isBusy, value);
         }
 
         public virtual void Initialize(object sender, SectionInitializeEventArgs e)

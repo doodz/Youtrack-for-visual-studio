@@ -214,6 +214,7 @@
     <Compile Include="CommentTreeCollection.cs" />
     <Compile Include="ViewModels\CommentViewModel.cs" />
     <Compile Include="ViewModels\DiffWindowControlViewModel.cs" />
+    <Compile Include="ViewModels\PendingChangesSectionViewModel.cs" />
     <Compile Include="ViewModels\PullRequestDiffViewModel.cs" />
     <Compile Include="ViewModels\YouTrackAttachmentsViewModel.cs" />
     <Compile Include="ViewModels\YouTrackCommentsViewModel.cs" />
@@ -233,6 +234,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ParseDiff\ParseDiff.csproj">
+      <Project>{65672e92-c353-4d21-a098-6a5beb42cdf4}</Project>
+      <Name>ParseDiff</Name>
+    </ProjectReference>
     <ProjectReference Include="..\YoutrackClientVS.REST.API\YouTrack.REST.API.csproj">
       <Project>{8d9a6680-2f77-485e-b90d-70e70a3444cf}</Project>
       <Name>YouTrack.REST.API</Name>
@@ -240,10 +245,6 @@
     <ProjectReference Include="..\YouTrackClientVS.Contracts\YouTrackClientVS.Contracts.csproj">
       <Project>{528a613a-1d51-4b23-851b-2549261b580e}</Project>
       <Name>YouTrackClientVS.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ParseDiff\ParseDiff.csproj">
-      <Project>{65672e92-c353-4d21-a098-6a5beb42cdf4}</Project>
-      <Name>ParseDiff</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

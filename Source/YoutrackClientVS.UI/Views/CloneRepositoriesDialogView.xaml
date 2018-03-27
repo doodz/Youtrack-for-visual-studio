@@ -70,7 +70,7 @@
     </controls:MetroWindow.Resources>
 
     <Grid>
-        <controls2:ProgressBar ProgressContent="{Binding ElementName=ContentGrid}" />
+        <!--<controls2:ProgressBar ProgressContent="{Binding ElementName=ContentGrid}" />-->
         <Grid Margin="20" x:Name="ContentGrid">
             <Grid.Resources>
                 <Style x:Key="repositoryListStyle" TargetType="{x:Type ListBoxItem}">

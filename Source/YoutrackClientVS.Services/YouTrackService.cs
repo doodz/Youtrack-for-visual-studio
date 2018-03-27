@@ -1,10 +1,10 @@
-﻿using System;
+﻿using log4net;
+//using ParseDiff;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading.Tasks;
-using log4net;
-using ParseDiff;
 using YouTrack.REST.API;
 using YouTrack.REST.API.Authentication;
 using YouTrack.REST.API.Interfaces;
@@ -129,30 +129,6 @@ namespace YouTrackClientVS.Services
             return (await _youTrackClient.IssuesClient.GetAttachmentsForIssue(issueId)).MapTo<List<YouTrackAttachment>>();
         }
 
-        public async Task<IEnumerable<FileDiff>> GetPullRequestDiff(long id)
-        {
-            var diffs = (await _youTrackClient
-                .PullRequestsClient
-                .GetPullRequestDiff(_gitWatcher.ActiveRepo.Name, _gitWatcher.ActiveRepo.Owner, id)).ToList();
-
-            ProcessDiffs(diffs);
-
-            return diffs;
-        }
-
-        public async Task<IEnumerable<FileDiff>> GetCommitsDiff(string fromCommit, string toCommit)
-        {
-            var diffs = (await _youTrackClient
-                    .PullRequestsClient
-                    .GetCommitsDiff(_gitWatcher.ActiveRepo.Name, _gitWatcher.ActiveRepo.Owner, fromCommit, toCommit))
-                .ToList();
-
-            ProcessDiffs(diffs);
-
-            return diffs;
-        }
-
-
         public async Task<string> GetFileContent(string hash, string path)
         {
             return await _youTrackClient.PullRequestsClient.GetFileContent(_gitWatcher.ActiveRepo.Name,
@@ -263,6 +239,17 @@ namespace YouTrackClientVS.Services
                 .MapTo<List<GitPullRequest>>();
         }
 
+        public async Task<IEnumerable<YouTrackIssue>> GetIssuesByProject(string projectId, int limit = 5000)
+        {
+            var builder = _youTrackClient.IssuesClient.GetIssueQueryBuilder()
+                .After(0)
+                .Max(limit)
+                .WithWikifyDescription(false);
+            builder.AddFilter("State:unresolved");
+
+            return (await _youTrackClient.IssuesClient.GetIssuesByProject(projectId, builder)).MapTo<List<YouTrackIssue>>();
+        }
+
         public async Task<IEnumerable<YouTrackIssue>> GetIssuesPage(
             int page,
             int limit = 50,
@@ -276,7 +263,7 @@ namespace YouTrackClientVS.Services
             var builder = _youTrackClient.IssuesClient.GetIssueQueryBuilder()
                 .After(page * limit)
                 .Max(limit)
-                .WithWikifyDescription(true);
+                .WithWikifyDescription(false);
 
             if (state != null)
             {
@@ -374,11 +361,6 @@ namespace YouTrackClientVS.Services
         {
             _youTrackClient = null;
             OnConnectionChanged(ConnectionData.NotLogged);
-        }
-
-        private static void ProcessDiffs(IEnumerable<FileDiff> diffs)
-        {
-            //todo word level
         }
 
         private void OnConnectionChanged(ConnectionData connectionData)

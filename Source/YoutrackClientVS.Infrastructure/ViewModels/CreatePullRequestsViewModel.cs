@@ -313,10 +313,12 @@ namespace YouTrackClientVS.Infrastructure.ViewModels
 
         private async Task CreateDiffContent(string fromCommit, string toCommit)
         {
-            var fileDiffs = (await _youTrackClientService.GetCommitsDiff(fromCommit, toCommit)).ToList();
-            PullRequestDiffViewModel.AddFileDiffs(fileDiffs);
-            PullRequestDiffViewModel.FromCommit = fromCommit;
-            PullRequestDiffViewModel.ToCommit = toCommit;
+            //TODO DOODS : .
+            return;
+            ////var fileDiffs = (await _youTrackClientService.GetCommitsDiff(fromCommit, toCommit)).ToList();
+            //PullRequestDiffViewModel.AddFileDiffs(fileDiffs);
+            //PullRequestDiffViewModel.FromCommit = fromCommit;
+            //PullRequestDiffViewModel.ToCommit = toCommit;
         }
     }
 }

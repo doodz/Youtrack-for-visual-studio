@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.ComponentModelHost;
+using Microsoft.VisualStudio.Shell;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
 using System.Linq;
-using Microsoft.VisualStudio.ComponentModelHost;
-using Microsoft.VisualStudio.Shell;
 using YouTrackClientVS.Contracts.Interfaces.Services;
 using YouTrackClientVS.Infrastructure.Extensions;
 
@@ -27,7 +27,7 @@ namespace YouTrackClientVS.VisualStudio.UI
         private readonly Version _currentVersion;
         private readonly List<Func<Type, object>> _serviceImporters;
 
-        public IServiceProvider GitServiceProvider { get; set; }
+        public IServiceProvider YouTrackServiceProvider { get; set; }
 
         [ImportingConstructor]
         public AppServiceProvider([Import(typeof(SVsServiceProvider))] IServiceProvider globalServiceProvider)
@@ -46,7 +46,7 @@ namespace YouTrackClientVS.VisualStudio.UI
                 GetServiceFromCompositionContainer,
                 GetServiceFromExportProvider,
                 _globalServiceProvider.GetService,
-                serviceType => GitServiceProvider?.GetService(serviceType)
+                serviceType => YouTrackServiceProvider?.GetService(serviceType)
             };
         }
 
@@ -116,7 +116,7 @@ namespace YouTrackClientVS.VisualStudio.UI
         }
 
 
-        private void RemoveService(Type t, object owner)
+        public void RemoveService(Type t, object owner)
         {
             var contract = AttributedModelServices.GetContractName(t);
 

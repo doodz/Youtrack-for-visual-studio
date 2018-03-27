@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReactiveUI;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.DataAnnotations;
@@ -7,7 +8,6 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using ReactiveUI;
 using YouTrackClientVS.Contracts.Interfaces.Services;
 using YouTrackClientVS.Contracts.Interfaces.ViewModels;
 using YouTrackClientVS.Contracts.Models.GitClientModels;
@@ -18,8 +18,8 @@ namespace YouTrackClientVS.Infrastructure.ViewModels
     [PartCreationPolicy(CreationPolicy.NonShared)]
     public class PublishSectionViewModel : ViewModelBase, IPublishSectionViewModel
     {
-        private IYouTrackClientService _youTrackClientService;
-        private IGitService _gitService;
+        private readonly IYouTrackClientService _youTrackClientService;
+        private readonly IGitService _gitService;
         private readonly IUserInformationService _userInformationService;
         private readonly IGitWatcher _gitWatcher;
         private ReactiveCommand _publishRepositoryCommand;

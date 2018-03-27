@@ -167,6 +167,7 @@
     <Compile Include="Interfaces\ViewModels\ICommentViewModel.cs" />
     <Compile Include="Interfaces\ViewModels\ICreatePullRequestsViewModel.cs" />
     <Compile Include="Interfaces\ViewModels\IDiffWindowControlViewModel.cs" />
+    <Compile Include="Interfaces\ViewModels\IPendingChangesSectionViewModel.cs" />
     <Compile Include="Interfaces\ViewModels\IPublishSectionViewModel.cs" />
     <Compile Include="Interfaces\ViewModels\IYouTrackCommentsViewModel.cs" />
     <Compile Include="Interfaces\ViewModels\IYouTrackIssueDetailView.cs" />
@@ -191,6 +192,8 @@
     <Compile Include="Interfaces\ViewModels\ICloneRepositoriesDialogViewModel.cs" />
     <Compile Include="Interfaces\Views\ICloneRepositoriesDialogView.cs" />
     <Compile Include="Interfaces\Views\IDiffWindowControl.cs" />
+    <Compile Include="Interfaces\Views\IPendingChangesSection.cs" />
+    <Compile Include="Interfaces\Views\IPendingChangesSectionView.cs" />
     <Compile Include="Interfaces\Views\IPublishSectionView.cs" />
     <Compile Include="Interfaces\Views\IYouTrackIssuesMainView.cs" />
     <Compile Include="Interfaces\ILoadableViewModel.cs" />

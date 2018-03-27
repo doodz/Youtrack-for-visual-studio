@@ -1,6 +1,6 @@
 namespace YouTrackClientVS.Contracts.Interfaces.ViewModels
 {
-    public interface IPublishSectionViewModel : IViewModelWithErrorMessage, ILoadableViewModel, IInitializable, IViewModel
+    public interface IPublishSectionViewModel : IViewModel, IViewModelWithErrorMessage, ILoadableViewModel, IInitializable
     {
     }
 }

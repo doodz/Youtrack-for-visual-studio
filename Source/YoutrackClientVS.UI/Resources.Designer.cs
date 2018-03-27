@@ -215,6 +215,15 @@ namespace YouTrackClientVS.UI {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Format commit or update a ticket..
+        /// </summary>
+        public static string PendingChangesSectionMessage {
+            get {
+                return ResourceManager.GetString("PendingChangesSectionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Publish.
         /// </summary>
         public static string Publish {
@@ -275,6 +284,24 @@ namespace YouTrackClientVS.UI {
         public static string Title {
             get {
                 return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Update commit.
+        /// </summary>
+        public static string UpdateCommit {
+            get {
+                return ResourceManager.GetString("UpdateCommit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Update ticket.
+        /// </summary>
+        public static string UpdateTicket {
+            get {
+                return ResourceManager.GetString("UpdateTicket", resourceCulture);
             }
         }
     }

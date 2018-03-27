@@ -1,12 +1,12 @@
-﻿using System;
+﻿using log4net;
+using ReactiveUI;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Windows.Input;
-using log4net;
-using ReactiveUI;
 using YouTrackClientVS.Contracts.Events;
 using YouTrackClientVS.Contracts.Interfaces.Services;
 using YouTrackClientVS.Contracts.Interfaces.ViewModels;
@@ -27,6 +27,7 @@ namespace YouTrackClientVS.Infrastructure.ViewModels
         private readonly IEventAggregatorService _eventAggregator;
         private readonly IUserInformationService _userInformationService;
         private readonly IYouTrackClientService _youTrackClientService;
+        private readonly ICommandsService _commandsService;
         private ReactiveCommand _openLoginCommand;
         private ReactiveCommand _logoutCommand;
         private ReactiveCommand _openCloneCommand;
@@ -82,7 +83,8 @@ namespace YouTrackClientVS.Infrastructure.ViewModels
             IUserInformationService userInformationService,
             IYouTrackClientService youTrackClientService,
             IVsTools vsTools,
-            ITeamExplorerCommandsService teamExplorerCommandsService)
+            ITeamExplorerCommandsService teamExplorerCommandsService,
+                ICommandsService commandsService)
         {
             _loginViewFactory = loginViewFactory;
             // _cloneRepoViewFactory = cloneRepoViewFactory;
@@ -92,7 +94,7 @@ namespace YouTrackClientVS.Infrastructure.ViewModels
             _youTrackClientService = youTrackClientService;
             _vsTools = vsTools;
             _teamExplorerCommandsService = teamExplorerCommandsService;
-
+            _commandsService = commandsService;
             ConnectionData = _userInformationService.ConnectionData;
 
         }
@@ -150,6 +152,7 @@ namespace YouTrackClientVS.Infrastructure.ViewModels
         {
             if (SelectedProject != null)
             {
+                _commandsService.ShowYouTrackIssuesWindow();
                 // _eventAggregator.Publish(new ActiveProjectChangedEvent());
             }
         }

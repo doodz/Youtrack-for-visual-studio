@@ -307,6 +307,9 @@
     <Compile Include="Views\ConnectSectionLoggedOutView.xaml.cs">
       <DependentUpon>ConnectSectionLoggedOutView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\PendingChangesSectionView.xaml.cs">
+      <DependentUpon>PendingChangesSectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\YouTrackIssuesWindowContainer.xaml.cs">
       <DependentUpon>YouTrackIssuesWindowContainer.xaml</DependentUpon>
     </Compile>
@@ -462,6 +465,10 @@
     <Page Include="Views\ConnectSectionLoggedOutView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PendingChangesSectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\YouTrackIssuesWindowContainer.xaml">
       <Generator>MSBuild:Compile</Generator>

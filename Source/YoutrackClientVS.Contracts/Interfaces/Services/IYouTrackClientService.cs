@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ParseDiff;
 using YouTrackClientVS.Contracts.Models;
 using YouTrackClientVS.Contracts.Models.GitClientModels;
 using YouTrackClientVS.Contracts.Models.YouTrackClientModels;
@@ -20,7 +19,7 @@ namespace YouTrackClientVS.Contracts.Interfaces.Services
         Task<IEnumerable<GitTeam>> GetTeams();
         Task<IEnumerable<GitCommit>> GetPullRequestCommits(long id);
         Task<IEnumerable<GitComment>> GetPullRequestComments(long id);
-        Task<IEnumerable<FileDiff>> GetPullRequestDiff(long id);
+
         Task DisapprovePullRequest(long id);
         Task<bool> ApprovePullRequest(long id);
         Task<bool> DeclinePullRequest(long id, string version);
@@ -35,7 +34,7 @@ namespace YouTrackClientVS.Contracts.Interfaces.Services
         Task<GitPullRequest> GetPullRequestForBranches(string sourceBranch, string destBranch);
         Task<GitCommit> GetCommitById(string id);
         Task<IEnumerable<GitCommit>> GetCommitsRange(GitBranch fromBranch, GitBranch toBranch);
-        Task<IEnumerable<FileDiff>> GetCommitsDiff(string fromCommit, string toCommit);
+
         Task UpdatePullRequest(GitPullRequest gitPullRequest);
         Task<IEnumerable<GitUser>> GetDefaultReviewers();
         Task<string> GetFileContent(string hash, string path);
@@ -53,6 +52,7 @@ namespace YouTrackClientVS.Contracts.Interfaces.Services
             string author = null
         );
 
+        Task<IEnumerable<YouTrackIssue>> GetIssuesByProject(string projectId, int limit = 5000);
         Task<IEnumerable<YouTrackIssue>> GetIssuesPage(
            int page,
            int limit = 50,

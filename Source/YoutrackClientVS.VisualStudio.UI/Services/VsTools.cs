@@ -1,9 +1,9 @@
-﻿using System;
-using System.ComponentModel.Composition;
-using System.IO;
-using EnvDTE;
+﻿using EnvDTE;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
+using System;
+using System.ComponentModel.Composition;
+using System.IO;
 using YouTrackClientVS.Contracts.Interfaces.Services;
 
 namespace YouTrackClientVS.VisualStudio.UI.Services
@@ -13,8 +13,8 @@ namespace YouTrackClientVS.VisualStudio.UI.Services
     public class VsTools : IVsTools
     {
         private readonly IAppServiceProvider _appServiceProvider;
-        private const string TempSolutionName = "GitClientTempSolution";
-        private IFileService _fileService;
+        private const string TempSolutionName = "YouTrackClientTempSolution";
+        private readonly IFileService _fileService;
 
         [ImportingConstructor]
         public VsTools(IAppServiceProvider appServiceProvider, IFileService fileService)
@@ -23,8 +23,8 @@ namespace YouTrackClientVS.VisualStudio.UI.Services
             _fileService = fileService;
         }
 
-        public void OpenTemporarySolution(string repositoryPath) 
-            //this is Github extension idea to change active repository from TeamExplorer Window.
+        public void OpenTemporarySolution(string repositoryPath)
+        //this is Github extension idea to change active repository from TeamExplorer Window.
         {
             var dte = _appServiceProvider.GetService<DTE>();
 

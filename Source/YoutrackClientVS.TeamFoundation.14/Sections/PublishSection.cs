@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.TeamFoundation.Controls;
+using System;
 using System.ComponentModel.Composition;
-using Microsoft.TeamFoundation.Controls;
 using YouTrackClientVS.Contracts.Events;
 using YouTrackClientVS.Contracts.Interfaces.Services;
 using YouTrackClientVS.Contracts.Interfaces.Views;
@@ -18,7 +18,7 @@ namespace YouTrackClientVS.TeamFoundation.Sections
         private readonly IUserInformationService _userInformationService;
         private readonly IEventAggregatorService _eventAggregator;
         private IDisposable _obs;
-        private const string Id = "8a950046-66b6-4607-9038-4d0b7eb8ab96";
+        private const string Id = "D15FE6E3-96A4-44F3-9CD4-5CD71A0C1D5A";
 
         [ImportingConstructor]
         public PublishSection(
@@ -30,6 +30,7 @@ namespace YouTrackClientVS.TeamFoundation.Sections
             IEventAggregatorService eventAggregator
         ) : base(view)
         {
+
             _appServiceProvider = appServiceProvider;
             _userInformationService = userInformationService;
             _eventAggregator = eventAggregator;
@@ -46,7 +47,7 @@ namespace YouTrackClientVS.TeamFoundation.Sections
 
         public override void Initialize(object sender, SectionInitializeEventArgs e)
         {
-            _appServiceProvider.GitServiceProvider = ServiceProvider = e.ServiceProvider;
+            _appServiceProvider.YouTrackServiceProvider = ServiceProvider = e.ServiceProvider;
             base.Initialize(sender, e);
         }
 

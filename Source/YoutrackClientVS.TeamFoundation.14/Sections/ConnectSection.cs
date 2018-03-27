@@ -1,8 +1,8 @@
-﻿using System;
+﻿using log4net;
+using Microsoft.TeamFoundation.Controls;
+using System;
 using System.ComponentModel.Composition;
 using System.Reflection;
-using log4net;
-using Microsoft.TeamFoundation.Controls;
 using YouTrackClientVS.Contracts.Interfaces.Services;
 using YouTrackClientVS.Contracts.Interfaces.Views;
 using YouTrackClientVS.TeamFoundation.TeamFoundation;
@@ -31,10 +31,12 @@ namespace YouTrackClientVS.TeamFoundation.Sections
 
         public override void Initialize(object sender, SectionInitializeEventArgs e)
         {
-            _appServiceProvider.GitServiceProvider = ServiceProvider = e.ServiceProvider;
+            _appServiceProvider.YouTrackServiceProvider = ServiceProvider = e.ServiceProvider;
             _section = GetSection(TeamExplorerConnectionsSectionId);
             base.Initialize(sender, e);
         }
+
+
 
 
         protected ITeamExplorerSection GetSection(Guid section)

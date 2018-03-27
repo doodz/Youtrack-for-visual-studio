@@ -29,8 +29,12 @@ namespace YouTrackClientVS.Infrastructure.ViewModels
         private Theme _currentTheme;
 
         public ShowConfirmationEventViewModel ConfirmationViewModel { get; }
-        public string ActiveProject { get; set; }
-
+        private string _activeProject;
+        public string ActiveProject
+        {
+            get => _activeProject;
+            set => this.RaiseAndSetIfChanged(ref _activeProject, value);
+        }
         public IView CurrentView
         {
             get => _currentView;
@@ -89,13 +93,21 @@ namespace YouTrackClientVS.Infrastructure.ViewModels
                 .Where(x => x.IsProjectDifferent)
                 .Select(x => Unit.Default)
                 .Merge(_eventAggregator.GetEvent<ConnectionChangedEvent>().Select(x => Unit.Default))
-                .Subscribe(_ => OnClosed());
+                .Subscribe(_ => OnProjectChanged());
 
             this.WhenAnyValue(x => x.CurrentView).Where(x => x != null)
                 .Subscribe(_ => CurrentViewModel = CurrentView.DataContext as IWithPageTitle);
 
             this.WhenAnyObservable(x => x._nextCommand, x => x._prevCommand)
                 .Subscribe(_ => ConfirmationViewModel.Event = null);
+        }
+
+
+        private void OnProjectChanged()
+        {
+            ActiveProject = _userInfoService.ClientHistory.ActiveProject?.Name ?? "All projects";
+            //_pageNavigationService.ClearNavigationHistory();
+
         }
 
         private void ChangeView(NavigationEvent navEvent)

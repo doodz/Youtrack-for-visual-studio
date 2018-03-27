@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using WpfControls;
 using YouTrackClientVS.Contracts;
+using YouTrackClientVS.Contracts.Events;
 using YouTrackClientVS.Contracts.Interfaces.Services;
 using YouTrackClientVS.Contracts.Interfaces.ViewModels;
 using YouTrackClientVS.Contracts.Interfaces.Views;
@@ -24,6 +25,7 @@ namespace YouTrackClientVS.Infrastructure.ViewModels
     {
         private readonly IUserInformationService _userInfoService;
         private readonly IYouTrackClientService _youTrackClientService;
+        private readonly IEventAggregatorService _eventAggregator;
         private readonly IPageNavigationService<IYouTrackIssuesWindow> _pageNavigationService;
         private ReactiveCommand _initializeCommand;
         private ReactiveCommand _goToDetailsCommand;
@@ -38,7 +40,7 @@ namespace YouTrackClientVS.Infrastructure.ViewModels
         private YouTrackStatusSearch? _selectedStatus;
         private YouTrackIssue _selectedIssue;
         private PagedCollection<YouTrackIssue> _youTrackIssues;
-        private IDataNotifier _dataNotifier;
+        private readonly IDataNotifier _dataNotifier;
 
         public YouTrackUser SelectedAuthor
         {
@@ -111,13 +113,15 @@ namespace YouTrackClientVS.Infrastructure.ViewModels
             IYouTrackClientService youTrackClientService,
             IPageNavigationService<IYouTrackIssuesWindow> pageNavigationService,
             IUserInformationService userInfoService,
-            IDataNotifier dataNotifier
+            IDataNotifier dataNotifier,
+            IEventAggregatorService eventAggregator
             )
         {
             _youTrackClientService = youTrackClientService;
             _pageNavigationService = pageNavigationService;
             _dataNotifier = dataNotifier;
             _userInfoService = userInfoService;
+            _eventAggregator = eventAggregator;
             SelectedStatus = YouTrackStatusSearch.Open;
             Authors = new List<YouTrackUser>();
         }
@@ -135,7 +139,12 @@ namespace YouTrackClientVS.Infrastructure.ViewModels
             this.WhenAnyValue(x => x.SelectedIssue)
                 .Where(x => x != null)
                 .InvokeCommand(_goToDetailsCommand);
-
+            yield return _eventAggregator
+                .GetEvent<ActiveProjectChangedEvent>()
+                .Where(x => x.IsProjectDifferent)
+                .Select(x => Unit.Default)
+                .Merge(_eventAggregator.GetEvent<ConnectionChangedEvent>().Select(x => Unit.Default))
+                .Subscribe(async _ => await RefreshIssues());
             yield break;
         }
 
