@@ -1,9 +1,9 @@
-﻿using System;
+﻿using LibGit2Sharp;
+using log4net;
+using Microsoft.VisualStudio.TeamFoundation.Git.Extensibility;
+using System;
 using System.IO;
 using System.Linq;
-using log4net;
-using LibGit2Sharp;
-using Microsoft.VisualStudio.TeamFoundation.Git.Extensibility;
 using YouTrackClientVS.Contracts.Models.GitClientModels;
 
 namespace YouTrackClientVS.TeamFoundation.Extensions
@@ -11,7 +11,7 @@ namespace YouTrackClientVS.TeamFoundation.Extensions
     public static class GitRepositoryExtensions
     {
         private static readonly ILog Logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        
+
         public static GitRemoteRepository ToGitRepo(this IGitRepositoryInfo source)
         {
             if (source == null) return null;
@@ -41,7 +41,7 @@ namespace YouTrackClientVS.TeamFoundation.Extensions
                         Name = x.FriendlyName,
                         IsRemote = x.IsRemote,
                         IsHead = x.IsCurrentRepositoryHead,
-                        TrackedBranchName = x.TrackedBranch?.FriendlyName.Replace(x.TrackedBranch?.Remote.Name + "/", string.Empty),
+                        TrackedBranchName = x.TrackedBranch?.FriendlyName.Replace(x.TrackedBranch?.RemoteName + "/", string.Empty),
                         Target = new GitCommit() { Hash = x.Tip?.Sha },
                     })
                     .ToList();
