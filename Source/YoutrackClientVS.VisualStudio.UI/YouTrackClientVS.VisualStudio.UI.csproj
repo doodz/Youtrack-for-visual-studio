@@ -74,6 +74,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+   <PropertyGroup>
+      <GetVsixSourceItemsDependsOn>$(GetVsixSourceItemsDependsOn);IncludeNuGetResolvedAssets</GetVsixSourceItemsDependsOn>
+    </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.2.2" />
     <PackageReference Include="AvalonEdit" Version="5.0.4" />
@@ -274,4 +277,9 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+<Target Name="IncludeNuGetResolvedAssets" DependsOnTargets="ResolveNuGetPackageAssets">
+      <ItemGroup>
+	  	<VSIXCopyLocalReferenceSourceItem Include="@(ReferenceCopyLocalPaths)"  />
+      </ItemGroup>
+    </Target>
 </Project>

@@ -30,6 +30,7 @@ namespace YouTrackClientVS.UI.Helpers
             "System.Windows.Interactivity",
             "Humanizer",
             "RestSharp",
+            "log4net",
             "DiffPlex",
             "System.ValueTuple",
             "Svg",

@@ -84,7 +84,7 @@ namespace YouTrackClientVS.VisualStudio.UI
             return _appExportProvider
                 .GetExportedValues<object>(contract) //TODO below condition is wrong?
                 .FirstOrDefault(x =>
-                    !contract.StartsWith("GitClientVS.", StringComparison.OrdinalIgnoreCase) ||
+                    !contract.StartsWith("YouTrackClientVS.", StringComparison.OrdinalIgnoreCase) ||
                     x.GetType().Assembly.GetName().Version == _currentVersion);
         }
 

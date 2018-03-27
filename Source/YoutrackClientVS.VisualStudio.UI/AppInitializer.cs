@@ -1,8 +1,8 @@
-﻿using System;
+﻿using AutoMapper;
+using log4net;
+using System;
 using System.ComponentModel.Composition;
 using System.Threading.Tasks;
-using AutoMapper;
-using log4net;
 using YouTrackClientVS.Contracts.Interfaces.Services;
 using YouTrackClientVS.Contracts.Models;
 using YouTrackClientVS.Infrastructure;
@@ -72,6 +72,7 @@ namespace YouTrackClientVS.VisualStudio.UI
                     _logger.Warn("Couldn't login user using stored credentials. Credentials must have been changed or there is no internet connection", ex);
                 }
             }
+
         }
     }
 }
