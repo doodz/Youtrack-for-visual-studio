@@ -98,10 +98,15 @@
     <Compile Include="Models\Standard\CustomField.cs" />
     <Compile Include="Models\Standard\Field.cs" />
     <Compile Include="Models\Standard\Group.cs" />
+    <Compile Include="Models\Standard\Highlight.cs" />
+    <Compile Include="Models\Standard\Intellisense.cs" />
     <Compile Include="Models\Standard\Issue.cs" />
     <Compile Include="Models\Standard\ObjectFieldList.cs" />
     <Compile Include="Models\Standard\Project.cs" />
+    <Compile Include="Models\Standard\Range.cs" />
     <Compile Include="Models\Standard\SubValue.cs" />
+    <Compile Include="Models\Standard\SuggestItem.cs" />
+    <Compile Include="Models\Standard\SuggestItemCollectionWrapper.cs" />
     <Compile Include="Models\Standard\SystemWideTimeTrackingSettings.cs" />
     <Compile Include="Models\Standard\TimeTrackingSettings.cs" />
     <Compile Include="Models\Standard\UserCollectionWrapper.cs" />

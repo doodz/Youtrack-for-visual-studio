@@ -25,6 +25,7 @@ namespace YouTrackClientVS.Contracts.Interfaces.Services
         Task<bool> DeclinePullRequest(long id, string version);
         Task<bool> MergePullRequest(GitMergeRequest request);
         Task<IEnumerable<YouTrackUser>> GetUsers();
+        Task<YouTrackIntellisense> GetIntellisense(string project, string filter);
         bool IsOriginRepo(GitRemoteRepository gitRemoteRepository);
         Task CreatePullRequest(GitPullRequest gitPullRequest);
         Task<YouTrackIssue> GetIssue(string id);

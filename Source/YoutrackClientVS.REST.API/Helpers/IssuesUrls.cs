@@ -83,5 +83,10 @@
         {
             return $"issue/{issueId}/attachment/{attachmentId}";
         }
+
+        public static string GetIntellisense()
+        {
+            return $"/issue/intellisense";
+        }
     }
 }

@@ -21,7 +21,7 @@ namespace YouTrackClientVS.Infrastructure.Mappings
             {
                 return GitPullRequestStatus.Declined;
             }
-        
+
             return GitPullRequestStatus.Superseded;
         }
     }
@@ -42,7 +42,7 @@ namespace YouTrackClientVS.Infrastructure.Mappings
             {
                 return PullRequestOptions.DECLINED;
             }
-          
+
             return PullRequestOptions.SUPERSEDED;
         }
     }

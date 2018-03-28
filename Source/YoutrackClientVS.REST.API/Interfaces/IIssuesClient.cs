@@ -187,6 +187,16 @@ namespace YouTrack.REST.API.Interfaces
         /// <exception cref="T:System.Net.HttpRequestException">When the call to the remote YouTrack server instance failed.</exception>
         Task DeleteAttachmentForIssue(string issueId, string attachmentId);
 
+        /// <summary>
+        /// Get highlight and suggestions for issue filter query.
+        /// </summary>
+        /// <param name="project">Short name of the context project.</param>
+        ///  /// <param name="filter">Current issue search query.</param>
+        /// <remarks>Uses the REST API <a href="https://www.jetbrains.com/help/youtrack/standalone/Intellisense-for-issue-search.html">Intellisense for issue search</a>.</remarks>
+        /// <returns>An <see cref="T:System.Collections.Generic.IEnumerable`1" /> of <see cref="Comment" /> for the requested issue <paramref name="issueId"/>.</returns>
+        /// <exception cref="T:System.Net.HttpRequestException">When the call to the remote YouTrack server instance failed.</exception>
+        Task<Intellisense> GetIntellisense(string project, string filter);
+
         IIssueQueryBuilder GetIssueQueryBuilder();
     }
 }

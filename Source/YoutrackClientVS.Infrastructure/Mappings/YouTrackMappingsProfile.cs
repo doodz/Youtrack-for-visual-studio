@@ -53,7 +53,13 @@ namespace YouTrackClientVS.Infrastructure.Mappings
             CreateMap<Issue, YouTrackIssue>().ConvertUsing<IssueTypeConverter>(); ;
             CreateMap<Comment, YouTrackComment>().ConvertUsing<CommentTypeConverter>();
             CreateMap<User, YouTrackUser>();
+            CreateMap<SuggestItem, YouTrackSuggestItem>().ConvertUsing<SuggestItemTypeConverter>();
+
             CreateMap<Attachment, YouTrackAttachment>();
+
+
+            CreateMap<StyleClass, YouTrackStyleClass>().ConvertUsing<StyleClassTypeConverter>();
+            CreateMap<Suffix, YouTrackSuffix>().ConvertUsing<SuffixTypeConverter>();
         }
     }
 }

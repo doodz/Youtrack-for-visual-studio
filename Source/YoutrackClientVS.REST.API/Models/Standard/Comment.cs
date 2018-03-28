@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 using YouTrack.REST.API.Serializers.Json;
 
 namespace YouTrack.REST.API.Models.Standard

@@ -1,5 +1,5 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System;
 using YouTrack.REST.API.Serializers.Json;
 
 namespace YouTrack.REST.API.Models.Standard

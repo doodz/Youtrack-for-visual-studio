@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using RestSharp;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,8 +8,6 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using RestSharp;
 using YouTrack.REST.API.Helpers;
 using YouTrack.REST.API.Interfaces;
 using YouTrack.REST.API.Models.Standard;
@@ -549,6 +549,7 @@ namespace YouTrack.REST.API.Clients.Standard
 
             var url = IssuesUrls.GetAttachmentsForIssue(issueId);
             var request = new YouTrackRestRequest(url, Method.GET);
+
             var response = await RestClient.ExecuteTaskAsync<AttachmentCollectionWrapper>(request);
 
             return response.Data.Attachments;
@@ -599,6 +600,24 @@ namespace YouTrack.REST.API.Clients.Standard
             {
                 return;
             }
+        }
+
+
+        /// <summary>
+        /// Get highlight and suggestions for issue filter query.
+        /// </summary>
+        /// <param name="project">Short name of the context project.</param>
+        ///  /// <param name="filter">Current issue search query.</param>
+        /// <remarks>Uses the REST API <a href="https://www.jetbrains.com/help/youtrack/standalone/Intellisense-for-issue-search.html">Intellisense for issue search</a>.</remarks>
+        /// <returns>An <see cref="T:System.Collections.Generic.IEnumerable`1" /> of <see cref="Comment" /> for the requested issue <paramref name="issueId"/>.</returns>
+        /// <exception cref="T:System.Net.HttpRequestException">When the call to the remote YouTrack server instance failed.</exception>
+        public async Task<Intellisense> GetIntellisense(string project, string filter)
+        {
+            var url = IssuesUrls.GetIntellisense();
+            var request = new YouTrackRestRequest(url, Method.GET);
+            var response2 = await RestClient.ExecuteTaskAsync(request);
+            var response = await RestClient.ExecuteTaskAsync<Intellisense>(request);
+            return response.Data;
         }
 
 

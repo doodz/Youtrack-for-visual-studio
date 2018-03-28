@@ -143,8 +143,12 @@
     <Compile Include="Models\YouTrackClientHistory.cs" />
     <Compile Include="Models\YouTrackClientModels\YouTrackAttachment.cs" />
     <Compile Include="Models\YouTrackClientModels\YouTrackComment.cs" />
+    <Compile Include="Models\YouTrackClientModels\YouTrackCompletion.cs" />
+    <Compile Include="Models\YouTrackClientModels\YouTrackHighlight.cs" />
+    <Compile Include="Models\YouTrackClientModels\YouTrackIntellisense.cs" />
     <Compile Include="Models\YouTrackClientModels\YouTrackIssue.cs" />
     <Compile Include="Models\YouTrackClientModels\YouTrackProject.cs" />
+    <Compile Include="Models\YouTrackClientModels\YouTrackSuggestItem.cs" />
     <Compile Include="Models\YouTrackClientModels\YouTrackUser.cs" />
     <Compile Include="Models\YouTrackCredentials.cs" />
     <Compile Include="Models\LocalRepo.cs" />

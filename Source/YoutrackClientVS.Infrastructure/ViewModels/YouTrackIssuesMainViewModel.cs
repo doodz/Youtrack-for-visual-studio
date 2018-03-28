@@ -144,7 +144,7 @@ namespace YouTrackClientVS.Infrastructure.ViewModels
                 .Where(x => x.IsProjectDifferent)
                 .Select(x => Unit.Default)
                 .Merge(_eventAggregator.GetEvent<ConnectionChangedEvent>().Select(x => Unit.Default))
-                .Subscribe(async _ => await RefreshIssues());
+                .Subscribe(async _ => await RefreshIssuesAsync());
             yield break;
         }
 
@@ -156,25 +156,26 @@ namespace YouTrackClientVS.Infrastructure.ViewModels
                     return;
 
 
-                await RefreshIssues();
+                await RefreshIssuesAsync();
                 _isInitialized = true;
             }, CanLoadPullRequests());
 
             _goToCreateNewIssueCommand = ReactiveCommand.Create(() => { _pageNavigationService.Navigate<ICreateIssueView>(); }, Observable.Return(false));
             _goToDetailsCommand = ReactiveCommand.Create<YouTrackIssue>(x => _pageNavigationService.Navigate<IYouTrackIssueDetailView>(x.Id));
             _loadNextPageCommand = ReactiveCommand.CreateFromTask(_ => YouTrackIssues.LoadNextPageAsync());
-            _refreshIssuesCommand = ReactiveCommand.CreateFromTask(_ => RefreshIssues());
+            _refreshIssuesCommand = ReactiveCommand.CreateFromTask(_ => RefreshIssuesAsync());
         }
 
-        private async Task RefreshIssues()
+        private async Task RefreshIssuesAsync()
         {
             _dataNotifier.ShouldUpdate = false;
             Authors = (await _youTrackClientService.GetUsers()).ToList();
-            YouTrackIssues = new PagedCollection<YouTrackIssue>(GetPullRequestsPage, PageSize);
+            YouTrackIssues = new PagedCollection<YouTrackIssue>(GetPullRequestsPageAsync, PageSize);
+            var res = (await _youTrackClientService.GetIntellisense(null, null));
             await YouTrackIssues.LoadNextPageAsync();
         }
 
-        private async Task<IEnumerable<YouTrackIssue>> GetPullRequestsPage(int pageSize, int page)
+        private async Task<IEnumerable<YouTrackIssue>> GetPullRequestsPageAsync(int pageSize, int page)
         {
             var lst = await _youTrackClientService.GetIssuesPage(
                 state: SelectedStatus,

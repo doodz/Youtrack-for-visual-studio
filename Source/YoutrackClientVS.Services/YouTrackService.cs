@@ -117,6 +117,10 @@ namespace YouTrackClientVS.Services
             return (await _youTrackClient.UserManagementClient.GetUsers()).MapTo<List<YouTrackUser>>();
         }
 
+        public async Task<YouTrackIntellisense> GetIntellisense(string project, string filter)
+        {
+            return (await _youTrackClient.IssuesClient.GetIntellisense(null, null)).MapTo<YouTrackIntellisense>();
+        }
 
         public async Task<IEnumerable<YouTrackComment>> GetComments(string issueId)
         {

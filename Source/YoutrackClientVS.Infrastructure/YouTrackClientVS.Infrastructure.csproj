@@ -105,6 +105,9 @@
     <Compile Include="LoggerConfigurator.cs" />
     <Compile Include="Mappings\BitBucketEnterpriseMappings.cs" />
     <Compile Include="Mappings\CommentTypeConverter.cs" />
+    <Compile Include="Mappings\StyleClassTypeConverter.cs" />
+    <Compile Include="Mappings\SuffixTypeConverter.cs" />
+    <Compile Include="Mappings\SuggestItemTypeConverter.cs" />
     <Compile Include="Mappings\YouTrackMappingsProfile.cs" />
     <Compile Include="Mappings\IssueTypeConverter.cs" />
     <Compile Include="Mappings\ProjectTypeConverter.cs" />
