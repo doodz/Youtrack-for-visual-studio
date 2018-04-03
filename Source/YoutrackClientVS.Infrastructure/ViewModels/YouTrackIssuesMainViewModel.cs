@@ -7,16 +7,16 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using WpfControls;
 using YouTrackClientVS.Contracts;
 using YouTrackClientVS.Contracts.Events;
 using YouTrackClientVS.Contracts.Interfaces.Services;
 using YouTrackClientVS.Contracts.Interfaces.ViewModels;
 using YouTrackClientVS.Contracts.Interfaces.Views;
+using YouTrackClientVS.Contracts.Models;
 using YouTrackClientVS.Contracts.Models.GitClientModels;
 using YouTrackClientVS.Contracts.Models.YouTrackClientModels;
-using YouTrackClientVS.Infrastructure.Extensions;
-using SuggestionProvider = WpfControls.SuggestionProvider;
+using YouTrackClientVS.Infrastructure.AutoCompleteTextBox;
+
 namespace YouTrackClientVS.Infrastructure.ViewModels
 {
     [Export(typeof(IYouTrackIssuesMainViewModel))]
@@ -25,28 +25,32 @@ namespace YouTrackClientVS.Infrastructure.ViewModels
     {
         private readonly IUserInformationService _userInfoService;
         private readonly IYouTrackClientService _youTrackClientService;
+        private readonly IAutoCompleteIntellisenseQuerySource _autoCompleteIntellisenseQuerySource;
         private readonly IEventAggregatorService _eventAggregator;
         private readonly IPageNavigationService<IYouTrackIssuesWindow> _pageNavigationService;
+        private readonly IUserInformationService _userInformationService;
+        private readonly IEventAggregatorService _eventAggregatorService;
+        private Theme _currentTheme;
+
         private ReactiveCommand _initializeCommand;
         private ReactiveCommand _goToDetailsCommand;
         private ReactiveCommand _loadNextPageCommand;
         private ReactiveCommand _goToCreateNewIssueCommand;
         private ReactiveCommand _refreshIssuesCommand;
+
+        private ReactiveCommand _autoCompleteTextBoxCommand;
+        //private YouTrackIntellisense _intellisense;
+        //private YouTrackSuggestItem _selectedSuggest;
+        //private string _intellisensSearch;
         private bool _isLoading;
         private string _errorMessage;
+        private string _intellisenseSearchQuery;
 
-        private List<YouTrackUser> _authors;
-        private YouTrackUser _selectedAuthor;
         private YouTrackStatusSearch? _selectedStatus;
         private YouTrackIssue _selectedIssue;
         private PagedCollection<YouTrackIssue> _youTrackIssues;
         private readonly IDataNotifier _dataNotifier;
 
-        public YouTrackUser SelectedAuthor
-        {
-            get => _selectedAuthor;
-            set => this.RaiseAndSetIfChanged(ref _selectedAuthor, value);
-        }
 
         public YouTrackStatusSearch? SelectedStatus
         {
@@ -54,11 +58,34 @@ namespace YouTrackClientVS.Infrastructure.ViewModels
             set => this.RaiseAndSetIfChanged(ref _selectedStatus, value);
         }
 
-        public List<YouTrackUser> Authors
+
+        public string IntellisenseSearchQuery
         {
-            get => _authors;
-            set => this.RaiseAndSetIfChanged(ref _authors, value);
+            get => _intellisenseSearchQuery;
+            set => this.RaiseAndSetIfChanged(ref _intellisenseSearchQuery, value);
         }
+
+        //public string IntellisensSearch
+        //{
+        //    get => _intellisensSearch;
+        //    set => this.RaiseAndSetIfChanged(ref _intellisensSearch, value);
+        //}
+
+        //public YouTrackIntellisense Intellisense
+        //{
+        //    get => _intellisense;
+        //    set => this.RaiseAndSetIfChanged(ref _intellisense, value);
+        //}
+
+        //public YouTrackSuggestItem SelectedSuggest
+        //{
+        //    get => _selectedSuggest;
+        //    set
+        //    {
+        //        this.RaiseAndSetIfChanged(ref _selectedSuggest, value);
+        //        IntellisensSearch += $" {value.Option}";
+        //    }
+        //}
 
         public YouTrackIssue SelectedIssue
         {
@@ -72,8 +99,11 @@ namespace YouTrackClientVS.Infrastructure.ViewModels
             set => this.RaiseAndSetIfChanged(ref _errorMessage, value);
         }
 
-        public IEnumerable<ReactiveCommand> ThrowableCommands => new[] { _initializeCommand, _loadNextPageCommand, _refreshIssuesCommand };
-        public IEnumerable<ReactiveCommand> LoadingCommands => new[] { _initializeCommand, _loadNextPageCommand, _refreshIssuesCommand };
+        public IEnumerable<ReactiveCommand> ThrowableCommands =>
+            new[] { _initializeCommand, _loadNextPageCommand, _refreshIssuesCommand, _autoCompleteTextBoxCommand };
+
+        public IEnumerable<ReactiveCommand> LoadingCommands =>
+            new[] { _initializeCommand, _loadNextPageCommand, _refreshIssuesCommand };
 
         public bool IsLoading
         {
@@ -94,19 +124,26 @@ namespace YouTrackClientVS.Infrastructure.ViewModels
         public ICommand GotoCreateNewIssueCommand => _goToCreateNewIssueCommand;
         public ICommand LoadNextPageCommand => _loadNextPageCommand;
         public ICommand RefreshIssuesCommand => _refreshIssuesCommand;
+        public ICommand AutoCompleteTextBoxCommand => _autoCompleteTextBoxCommand;
 
-        public ISuggestionProvider AuthorProvider
+
+        public Theme CurrentTheme
         {
-            get
-            {
-                return new SuggestionProvider(x => Authors.Where(y =>
-                (y.FullName != null && y.FullName.Contains(x, StringComparison.InvariantCultureIgnoreCase)) ||
-                (y.Login != null && y.Login.Contains(x, StringComparison.InvariantCultureIgnoreCase))));
-            }
+            get => _currentTheme;
+            set => this.RaiseAndSetIfChanged(ref _currentTheme, value);
         }
+
+        //public ISuggestionProvider SuggestProvider
+        //{
+        //    get { return new SuggestionProvider(x => Intellisense.Suggest); }
+        //}
 
         private const int PageSize = 50;
         private bool _isInitialized = false;
+
+
+        public AutoCompleteQueryResultProvider AutoCompleteQueryResultProvider => new AutoCompleteQueryResultProvider(_autoCompleteIntellisenseQuerySource
+            .QueryResultFunction);
 
         [ImportingConstructor]
         public YouTrackIssuesMainViewModel(
@@ -114,22 +151,31 @@ namespace YouTrackClientVS.Infrastructure.ViewModels
             IPageNavigationService<IYouTrackIssuesWindow> pageNavigationService,
             IUserInformationService userInfoService,
             IDataNotifier dataNotifier,
-            IEventAggregatorService eventAggregator
-            )
+            IEventAggregatorService eventAggregator,
+            IAutoCompleteIntellisenseQuerySource autoCompleteIntellisenseQuerySource,
+            IUserInformationService userInformationService,
+            IEventAggregatorService eventAggregatorService
+        )
         {
+            _autoCompleteIntellisenseQuerySource = autoCompleteIntellisenseQuerySource;
             _youTrackClientService = youTrackClientService;
             _pageNavigationService = pageNavigationService;
             _dataNotifier = dataNotifier;
             _userInfoService = userInfoService;
             _eventAggregator = eventAggregator;
             SelectedStatus = YouTrackStatusSearch.Open;
-            Authors = new List<YouTrackUser>();
+            _userInformationService = userInformationService;
+            CurrentTheme = userInformationService.CurrentTheme;
+            _eventAggregatorService = eventAggregatorService;
+
         }
 
         protected override IEnumerable<IDisposable> SetupObservables()
         {
-            this.WhenAnyValue(x => x.SelectedStatus, x => x.SelectedAuthor)
-                .Select(x => new { SelectedStatus, SelectedAuthor })
+            yield return _eventAggregatorService.GetEvent<ThemeChangedEvent>()
+                .Subscribe(ev => { CurrentTheme = ev.Theme; });
+            this.WhenAnyValue(x => x.SelectedStatus)
+                .Select(x => new { SelectedStatus })
                 .DistinctUntilChanged()
                 .Where(x => _isInitialized)
                 .Where(x => !IsLoading)
@@ -160,18 +206,36 @@ namespace YouTrackClientVS.Infrastructure.ViewModels
                 _isInitialized = true;
             }, CanLoadPullRequests());
 
-            _goToCreateNewIssueCommand = ReactiveCommand.Create(() => { _pageNavigationService.Navigate<ICreateIssueView>(); }, Observable.Return(false));
-            _goToDetailsCommand = ReactiveCommand.Create<YouTrackIssue>(x => _pageNavigationService.Navigate<IYouTrackIssueDetailView>(x.Id));
+            _goToCreateNewIssueCommand =
+                ReactiveCommand.Create(() => { _pageNavigationService.Navigate<ICreateIssueView>(); },
+                    Observable.Return(false));
+            _goToDetailsCommand =
+                ReactiveCommand.Create<YouTrackIssue>(x =>
+                    _pageNavigationService.Navigate<IYouTrackIssueDetailView>(x.Id));
             _loadNextPageCommand = ReactiveCommand.CreateFromTask(_ => YouTrackIssues.LoadNextPageAsync());
             _refreshIssuesCommand = ReactiveCommand.CreateFromTask(_ => RefreshIssuesAsync());
+            _autoCompleteTextBoxCommand = ReactiveCommand.CreateFromTask<string>(async param => await AutoCompleteTextBoxActionAsync(param));
+        }
+
+
+
+        private async Task AutoCompleteTextBoxActionAsync(string param)
+        {
+            await InitPagedCollectionAsync();
         }
 
         private async Task RefreshIssuesAsync()
         {
+            IntellisenseSearchQuery = string.Empty;
+            await InitPagedCollectionAsync();
+        }
+
+        private async Task InitPagedCollectionAsync()
+        {
             _dataNotifier.ShouldUpdate = false;
-            Authors = (await _youTrackClientService.GetUsers()).ToList();
+            //Authors = (await _youTrackClientService.GetUsers()).ToList();
             YouTrackIssues = new PagedCollection<YouTrackIssue>(GetPullRequestsPageAsync, PageSize);
-            var res = (await _youTrackClientService.GetIntellisense(null, null));
+            //Intellisense = await _youTrackClientService.GetIntellisense(null, null);
             await YouTrackIssues.LoadNextPageAsync();
         }
 
@@ -180,10 +244,10 @@ namespace YouTrackClientVS.Infrastructure.ViewModels
             var lst = await _youTrackClientService.GetIssuesPage(
                 state: SelectedStatus,
                 project: _userInfoService.ClientHistory.ActiveProject?.ShortName,
-                author: SelectedAuthor?.Login,
                 limit: pageSize,
-                page: page
-                );
+                page: page,
+                filter: IntellisenseSearchQuery
+            );
 
             return lst;
         }

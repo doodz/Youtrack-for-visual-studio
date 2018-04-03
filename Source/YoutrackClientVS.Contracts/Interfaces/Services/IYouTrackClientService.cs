@@ -59,7 +59,7 @@ namespace YouTrackClientVS.Contracts.Interfaces.Services
            int limit = 50,
            YouTrackStatusSearch? state = null,
            string project = null,
-           string author = null
+           string filter = null
        );
 
         Task<GitComment> EditPullRequestComment(long id, GitComment comment);

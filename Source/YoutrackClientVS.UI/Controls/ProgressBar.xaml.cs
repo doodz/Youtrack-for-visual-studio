@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace YouTrackClientVS.UI.Controls
@@ -53,6 +54,10 @@ namespace YouTrackClientVS.UI.Controls
             InitializeComponent();
             IsVisibleChanged += ProgressBar_IsVisibleChanged;
             Loaded += ProgressBar_Loaded;
+            if (DesignerProperties.GetIsInDesignMode(this))
+            {
+                this.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void ProgressBar_Loaded(object sender, RoutedEventArgs e)

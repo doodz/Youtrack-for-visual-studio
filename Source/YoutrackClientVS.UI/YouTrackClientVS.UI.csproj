@@ -110,6 +110,9 @@
     <Compile Include="Behaviours\MoveToTouchedTreeViewItem.cs" />
     <Compile Include="Behaviours\ScrollHelper.cs" />
     <Compile Include="Behaviours\ScrollViewerMonitor.cs" />
+    <Compile Include="Controls\AutoCompleteTextBox\AutoCompleteQuery.cs" />
+    <Compile Include="Controls\AutoCompleteTextBox\AutoCompleteTextBox.cs" />
+    <Compile Include="Controls\AutoCompleteTextBox\TreeUtils.cs" />
     <Compile Include="Controls\YouTrackCommentsView.xaml.cs">
       <DependentUpon>YouTrackCommentsView.xaml</DependentUpon>
     </Compile>
@@ -336,15 +339,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Styles\AutoCompleteTextBoxStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\SharedDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Styles\TextBlockStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Styles\TextBoxStyles.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Styles\SharedDictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -33,9 +33,9 @@ namespace YouTrack.REST.API.Wrappers
             AddHandler("text/x-json", serializer);
             AddHandler("text/javascript", serializer);
             AddHandler("*+json", serializer);
-
-            var auth = new Authenticator(connection.Credentials);
-            Authenticator = auth.CreatedAuthenticator;
+           
+            //var auth = new Authenticator(connection.Credentials);
+            //Authenticator = auth.CreatedAuthenticator;
             FollowRedirects = false;
             CookieContainer = new CookieContainer();
         }

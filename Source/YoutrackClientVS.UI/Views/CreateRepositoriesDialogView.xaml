@@ -51,7 +51,7 @@
             </Grid.RowDefinitions>
 
             <TextBox Grid.Row="0" Margin="5" controls:TextBoxHelper.Watermark="Name" Text="{bindings:ValidatedBinding Name}" Style="{StaticResource ValidatedTextBoxStyle}"/>
-            <TextBox Grid.Row="1" Margin="5" controls:TextBoxHelper.Watermark="Description" Text="{bindings:ValidatedBinding Description}" MinLines="3" AcceptsReturn="True" MaxHeight="100">
+            <TextBox Grid.Row="1" Margin="5" controls:TextBoxHelper.Watermark="Descriptionription" Text="{bindings:ValidatedBinding Description}" MinLines="3" AcceptsReturn="True" MaxHeight="100">
                 <TextBox.Style>
                     <Style TargetType="TextBox" BasedOn="{StaticResource ValidatedTextBoxStyle}">
                         <Setter Property="Visibility" Value="Visible"/>

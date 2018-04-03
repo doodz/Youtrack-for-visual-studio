@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Web;
 using YouTrack.REST.API.Helpers;
 using YouTrack.REST.API.Interfaces;
 using YouTrack.REST.API.Models.Standard;
@@ -22,8 +23,6 @@ namespace YouTrack.REST.API.Clients.Standard
     /// </summary>
     public class IssuesClient : ApiClient, IIssuesClient
     {
-
-
         private static readonly string[] ReservedFields =
         {
             "id", "entityid", "jiraid", "summary", "description"
@@ -49,10 +48,7 @@ namespace YouTrack.REST.API.Clients.Standard
         /// <exception cref="T:System.Net.HttpRequestException">When the call to the remote YouTrack server instance failed.</exception>
         public async Task<Issue> GetIssue(string issueId, bool wikifyDescription = false)
         {
-            if (string.IsNullOrEmpty(issueId))
-            {
-                throw new ArgumentNullException(nameof(issueId));
-            }
+            if (string.IsNullOrEmpty(issueId)) throw new ArgumentNullException(nameof(issueId));
 
             var url = IssuesUrls.GetIssue(issueId, wikifyDescription);
             var request = new YouTrackRestRequest(url, Method.GET);
@@ -71,10 +67,7 @@ namespace YouTrack.REST.API.Clients.Standard
         /// <exception cref="T:System.Net.HttpRequestException">When the call to the remote YouTrack server instance failed.</exception>
         public async Task<IEnumerable<Issue>> GetIssuesByProject(string projectId, IIssueQueryBuilder builder = null)
         {
-            if (string.IsNullOrEmpty(projectId))
-            {
-                throw new ArgumentNullException(nameof(projectId));
-            }
+            if (string.IsNullOrEmpty(projectId)) throw new ArgumentNullException(nameof(projectId));
 
             var url = IssuesUrls.GetIssuesByProject(projectId);
             var request = new YouTrackRestRequest(url, Method.GET);
@@ -103,7 +96,6 @@ namespace YouTrack.REST.API.Clients.Standard
                     request.AddQueryParameter(param.Key, param.Value);
 
 
-
             var response = await RestClient.ExecuteTaskAsync<IssueCollectionWrapper>(request);
 
             return response.Data.Issues;
@@ -119,10 +111,7 @@ namespace YouTrack.REST.API.Clients.Standard
         /// <exception cref="T:System.Net.HttpRequestException">When the call to the remote YouTrack server instance failed.</exception>
         public async Task<bool> Exists(string issueId)
         {
-            if (string.IsNullOrEmpty(issueId))
-            {
-                throw new ArgumentNullException(nameof(issueId));
-            }
+            if (string.IsNullOrEmpty(issueId)) throw new ArgumentNullException(nameof(issueId));
 
             var url = IssuesUrls.Exists(issueId);
             var request = new YouTrackRestRequest(url, Method.GET);
@@ -143,25 +132,16 @@ namespace YouTrack.REST.API.Clients.Standard
         /// <exception cref="T:System.Net.HttpRequestException">When the call to the remote YouTrack server instance failed.</exception>
         public async Task<string> CreateIssue(string projectId, Issue issue)
         {
-            if (string.IsNullOrEmpty(projectId))
-            {
-                throw new ArgumentNullException(nameof(projectId));
-            }
+            if (string.IsNullOrEmpty(projectId)) throw new ArgumentNullException(nameof(projectId));
 
             //TODO THE queryBuilder ?
             var url = IssuesUrls.CreateIssue();
             var request = new YouTrackRestRequest(url, Method.PUT);
             request.AddQueryParameter("project", projectId);
 
-            if (!string.IsNullOrEmpty(issue.Summary))
-            {
-                request.AddQueryParameter("summary", WebUtility.UrlEncode(issue.Summary));
-            }
+            if (!string.IsNullOrEmpty(issue.Summary)) request.AddQueryParameter("summary", WebUtility.UrlEncode(issue.Summary));
 
-            if (!string.IsNullOrEmpty(issue.Description))
-            {
-                request.AddQueryParameter("description", WebUtility.UrlEncode(issue.Summary));
-            }
+            if (!string.IsNullOrEmpty(issue.Description)) request.AddQueryParameter("description", WebUtility.UrlEncode(issue.Summary));
 
 
             request.AddHeader("Content-Type", "multipart/form-data");
@@ -172,11 +152,13 @@ namespace YouTrack.REST.API.Clients.Standard
             var marker = "rest/issue/";
 
 
-            var locationHeader = response.Headers.FirstOrDefault(h => h.Name.Equals("Location", StringComparison.OrdinalIgnoreCase));
+            var locationHeader =
+                response.Headers.FirstOrDefault(h => h.Name.Equals("Location", StringComparison.OrdinalIgnoreCase));
 
             var issueId =
-                locationHeader.Value.ToString().Substring(locationHeader.Value.ToString().IndexOf(marker, StringComparison.OrdinalIgnoreCase) +
-                                         marker.Length);
+                locationHeader.Value.ToString().Substring(
+                    locationHeader.Value.ToString().IndexOf(marker, StringComparison.OrdinalIgnoreCase) +
+                    marker.Length);
 
             // For every custom field, apply a command
             var customFields = issue.Fields
@@ -184,37 +166,21 @@ namespace YouTrack.REST.API.Clients.Standard
                 .ToDictionary(field => field.Name, field => field.Value);
 
             foreach (var customField in customFields)
-            {
                 if (!(customField.Value is string) && customField.Value is System.Collections.IEnumerable enumerable)
-                {
                     await ApplyCommand(issueId, $"{customField.Key} {string.Join(" ", enumerable.OfType<string>())}",
                         string.Empty);
-                }
                 else if (customField.Value is DateTime dateTime)
-                {
                     await ApplyCommand(issueId, $"{customField.Key} {dateTime:s}", string.Empty);
-                }
                 else if (customField.Value is DateTimeOffset dateTimeOffset)
-                {
                     await ApplyCommand(issueId, $"{customField.Key} {dateTimeOffset:s}", string.Empty);
-                }
                 else
-                {
                     await ApplyCommand(issueId, $"{customField.Key} {customField.Value}", string.Empty);
-                }
-            }
 
             // Add comments?
-            foreach (var issueComment in issue.Comments)
-            {
-                await ApplyCommand(issueId, "comment", issueComment.Text, runAs: issueComment.Author);
-            }
+            foreach (var issueComment in issue.Comments) await ApplyCommand(issueId, "comment", issueComment.Text, runAs: issueComment.Author);
 
             // Add tags?
-            foreach (var issueTag in issue.Tags)
-            {
-                await ApplyCommand(issueId, $"tag {issueTag.Value}");
-            }
+            foreach (var issueTag in issue.Tags) await ApplyCommand(issueId, $"tag {issueTag.Value}");
 
             return issueId;
         }
@@ -231,29 +197,16 @@ namespace YouTrack.REST.API.Clients.Standard
         /// <exception cref="T:System.Net.HttpRequestException">When the call to the remote YouTrack server instance failed.</exception>
         public async Task UpdateIssue(string issueId, string summary = null, string description = null)
         {
-            if (string.IsNullOrEmpty(issueId))
-            {
-                throw new ArgumentNullException(nameof(issueId));
-            }
+            if (string.IsNullOrEmpty(issueId)) throw new ArgumentNullException(nameof(issueId));
 
-            if (summary == null && description == null)
-            {
-                return;
-            }
+            if (summary == null && description == null) return;
 
             var url = IssuesUrls.UpdateIssue(issueId);
             var request = new YouTrackRestRequest(url, Method.POST);
 
-            if (!string.IsNullOrEmpty(summary))
-            {
-                request.AddQueryParameter("summary", WebUtility.UrlEncode(summary));
+            if (!string.IsNullOrEmpty(summary)) request.AddQueryParameter("summary", WebUtility.UrlEncode(summary));
 
-            }
-
-            if (!string.IsNullOrEmpty(description))
-            {
-                request.AddQueryParameter("description", WebUtility.UrlEncode(description));
-            }
+            if (!string.IsNullOrEmpty(description)) request.AddQueryParameter("description", WebUtility.UrlEncode(description));
 
             request.AddHeader("Content-Type", "multipart/form-data");
             var response = await RestClient.ExecuteTaskAsync(request);
@@ -274,15 +227,9 @@ namespace YouTrack.REST.API.Clients.Standard
         public async Task ApplyCommand(string issueId, string command, string comment = null,
             bool disableNotifications = false, string runAs = null)
         {
-            if (string.IsNullOrEmpty(issueId))
-            {
-                throw new ArgumentNullException(nameof(issueId));
-            }
+            if (string.IsNullOrEmpty(issueId)) throw new ArgumentNullException(nameof(issueId));
 
-            if (string.IsNullOrEmpty(command))
-            {
-                throw new ArgumentNullException(nameof(command));
-            }
+            if (string.IsNullOrEmpty(command)) throw new ArgumentNullException(nameof(command));
 
             var url = IssuesUrls.ApplyCommand(issueId);
             var request = new YouTrackRestRequest(url, Method.POST);
@@ -290,22 +237,11 @@ namespace YouTrack.REST.API.Clients.Standard
 
             request.AddQueryParameter("command", WebUtility.UrlEncode(command));
 
-            if (!string.IsNullOrEmpty(comment))
-            {
-                request.AddQueryParameter("comment", WebUtility.UrlEncode(comment));
-            }
+            if (!string.IsNullOrEmpty(comment)) request.AddQueryParameter("comment", WebUtility.UrlEncode(comment));
 
-            if (disableNotifications)
-            {
-                request.AddQueryParameter("disableNotifications", WebUtility.UrlEncode("true"));
+            if (disableNotifications) request.AddQueryParameter("disableNotifications", WebUtility.UrlEncode("true"));
 
-            }
-
-            if (!string.IsNullOrEmpty(runAs))
-            {
-                request.AddQueryParameter("runAs", WebUtility.UrlEncode(runAs));
-            }
-
+            if (!string.IsNullOrEmpty(runAs)) request.AddQueryParameter("runAs", WebUtility.UrlEncode(runAs));
 
 
             request.AddHeader("Content-Type", "multipart/form-data");
@@ -325,7 +261,6 @@ namespace YouTrack.REST.API.Clients.Standard
                 //    throw new YouTrackErrorException(Strings.Exception_UnknownError);
                 //}
             }
-
         }
 
         /// <summary>
@@ -337,10 +272,7 @@ namespace YouTrack.REST.API.Clients.Standard
         /// <exception cref="T:System.Net.HttpRequestException">When the call to the remote YouTrack server instance failed.</exception>
         public async Task DeleteIssue(string issueId)
         {
-            if (string.IsNullOrEmpty(issueId))
-            {
-                throw new ArgumentNullException(nameof(issueId));
-            }
+            if (string.IsNullOrEmpty(issueId)) throw new ArgumentNullException(nameof(issueId));
 
 
             var url = IssuesUrls.DeleteIssue(issueId);
@@ -348,10 +280,7 @@ namespace YouTrack.REST.API.Clients.Standard
             var response = await RestClient.ExecuteTaskAsync(request);
 
 
-            if (response.StatusCode == HttpStatusCode.NotFound)
-            {
-                return;
-            }
+            if (response.StatusCode == HttpStatusCode.NotFound) return;
         }
 
         /// <summary>
@@ -364,10 +293,7 @@ namespace YouTrack.REST.API.Clients.Standard
         /// <exception cref="T:System.Net.HttpRequestException">When the call to the remote YouTrack server instance failed.</exception>
         public async Task<IEnumerable<Link>> GetLinksForIssue(string issueId)
         {
-            if (string.IsNullOrEmpty(issueId))
-            {
-                throw new ArgumentNullException(nameof(issueId));
-            }
+            if (string.IsNullOrEmpty(issueId)) throw new ArgumentNullException(nameof(issueId));
 
             var url = IssuesUrls.GetLinksForIssue(issueId);
             var request = new YouTrackRestRequest(url, Method.GET);
@@ -387,12 +313,8 @@ namespace YouTrack.REST.API.Clients.Standard
         /// <exception cref="T:System.Net.HttpRequestException">When the call to the remote YouTrack server instance failed.</exception>
         public async Task<IEnumerable<Comment>> GetCommentsForIssue(string issueId, bool wikifyDescription = false)
         {
+            if (string.IsNullOrEmpty(issueId)) throw new ArgumentNullException(nameof(issueId));
 
-
-            if (string.IsNullOrEmpty(issueId))
-            {
-                throw new ArgumentNullException(nameof(issueId));
-            }
             var url = IssuesUrls.GetCommentsForIssue(issueId);
             var request = new YouTrackRestRequest(url, Method.GET);
             var response = await RestClient.ExecuteTaskAsync<List<Comment>>(request);
@@ -411,23 +333,17 @@ namespace YouTrack.REST.API.Clients.Standard
         /// <exception cref="T:System.Net.HttpRequestException">When the call to the remote YouTrack server instance failed.</exception>
         public async Task UpdateCommentForIssue(string issueId, string commentId, string text)
         {
-            if (string.IsNullOrEmpty(issueId))
-            {
-                throw new ArgumentNullException(nameof(issueId));
-            }
-            if (string.IsNullOrEmpty(commentId))
-            {
-                throw new ArgumentNullException(nameof(commentId));
-            }
-            if (string.IsNullOrEmpty(text))
-            {
-                throw new ArgumentNullException(nameof(text));
-            }
+            if (string.IsNullOrEmpty(issueId)) throw new ArgumentNullException(nameof(issueId));
+
+            if (string.IsNullOrEmpty(commentId)) throw new ArgumentNullException(nameof(commentId));
+
+            if (string.IsNullOrEmpty(text)) throw new ArgumentNullException(nameof(text));
 
             var myText = new SimpleText(text);
             var url = IssuesUrls.UpdateCommentForIssue(issueId, commentId);
             var request = new YouTrackRestRequest(url, Method.PUT);
-            request.AddParameter("application/json; charset=utf-8", request.JsonSerializer.Serialize(myText), ParameterType.RequestBody);
+            request.AddParameter("application/json; charset=utf-8", request.JsonSerializer.Serialize(myText),
+                ParameterType.RequestBody);
             var response = await RestClient.ExecuteTaskAsync<PullRequest>(request);
         }
 
@@ -442,25 +358,15 @@ namespace YouTrack.REST.API.Clients.Standard
         /// <exception cref="T:System.Net.HttpRequestException">When the call to the remote YouTrack server instance failed.</exception>
         public async Task DeleteCommentForIssue(string issueId, string commentId, bool permanent = false)
         {
-            if (string.IsNullOrEmpty(issueId))
-            {
-                throw new ArgumentNullException(nameof(issueId));
-            }
-            if (string.IsNullOrEmpty(commentId))
-            {
-                throw new ArgumentNullException(nameof(commentId));
-            }
+            if (string.IsNullOrEmpty(issueId)) throw new ArgumentNullException(nameof(issueId));
+
+            if (string.IsNullOrEmpty(commentId)) throw new ArgumentNullException(nameof(commentId));
 
             var url = IssuesUrls.DeleteCommentForIssue(issueId, commentId, permanent);
             var request = new YouTrackRestRequest(url, Method.GET);
             var response = await RestClient.ExecuteTaskAsync<List<Comment>>(request);
 
-            if (response.StatusCode == HttpStatusCode.NotFound)
-            {
-                return;
-            }
-
-
+            if (response.StatusCode == HttpStatusCode.NotFound) return;
         }
 
 
@@ -477,15 +383,9 @@ namespace YouTrack.REST.API.Clients.Standard
         /// <exception cref="T:System.Net.HttpRequestException">When the call to the remote YouTrack server instance failed.</exception>
         public async Task AttachFileToIssue(string issueId, IAttachFileQueryBuilder builder, Stream attachmentStream)
         {
-            if (string.IsNullOrEmpty(issueId))
-            {
-                throw new ArgumentNullException(nameof(issueId));
-            }
+            if (string.IsNullOrEmpty(issueId)) throw new ArgumentNullException(nameof(issueId));
 
-            if (attachmentStream == null)
-            {
-                throw new ArgumentNullException(nameof(attachmentStream));
-            }
+            if (attachmentStream == null) throw new ArgumentNullException(nameof(attachmentStream));
 
             var url = IssuesUrls.AttachFileToIssue(issueId);
             var request = new YouTrackRestRequest(url, Method.POST);
@@ -495,8 +395,6 @@ namespace YouTrack.REST.API.Clients.Standard
                     request.AddQueryParameter(param.Key, param.Value);
 
             request.AddHeader("Content-Type", "multipart/form-data");
-
-
 
 
             var streamContent = new StreamContent(attachmentStream);
@@ -511,7 +409,8 @@ namespace YouTrack.REST.API.Clients.Standard
                 streamContent
             };
 
-            request.AddParameter("application/json; charset=utf-8", request.JsonSerializer.Serialize(content), ParameterType.RequestBody);
+            request.AddParameter("application/json; charset=utf-8", request.JsonSerializer.Serialize(content),
+                ParameterType.RequestBody);
             var response = await RestClient.ExecuteTaskAsync(request);
             //var response = await client.PostAsync($"rest/issue/{issueId}/attachment?{query}", content);
 
@@ -541,10 +440,7 @@ namespace YouTrack.REST.API.Clients.Standard
         /// <exception cref="T:System.Net.HttpRequestException">When the call to the remote YouTrack server instance failed.</exception>
         public async Task<IEnumerable<Attachment>> GetAttachmentsForIssue(string issueId)
         {
-            if (string.IsNullOrEmpty(issueId))
-            {
-                throw new ArgumentNullException(nameof(issueId));
-            }
+            if (string.IsNullOrEmpty(issueId)) throw new ArgumentNullException(nameof(issueId));
 
 
             var url = IssuesUrls.GetAttachmentsForIssue(issueId);
@@ -564,10 +460,7 @@ namespace YouTrack.REST.API.Clients.Standard
         /// <exception cref="T:System.Net.HttpRequestException">When the call to the remote YouTrack server instance failed.</exception>
         public async Task<Stream> DownloadAttachment(Uri attachmentUrl)
         {
-            if (attachmentUrl == null)
-            {
-                throw new ArgumentNullException(nameof(attachmentUrl));
-            }
+            if (attachmentUrl == null) throw new ArgumentNullException(nameof(attachmentUrl));
 
 
             var request = new YouTrackRestRequest(attachmentUrl.ToString(), Method.GET);
@@ -586,20 +479,14 @@ namespace YouTrack.REST.API.Clients.Standard
         /// <exception cref="T:System.Net.HttpRequestException">When the call to the remote YouTrack server instance failed.</exception>
         public async Task DeleteAttachmentForIssue(string issueId, string attachmentId)
         {
-            if (string.IsNullOrEmpty(issueId))
-            {
-                throw new ArgumentNullException(nameof(issueId));
-            }
+            if (string.IsNullOrEmpty(issueId)) throw new ArgumentNullException(nameof(issueId));
 
 
             var url = IssuesUrls.DeleteAttachmentForIssue(issueId, attachmentId);
             var request = new YouTrackRestRequest(url, Method.GET);
             var response = await RestClient.ExecuteTaskAsync(request);
 
-            if (response.StatusCode == HttpStatusCode.NotFound)
-            {
-                return;
-            }
+            if (response.StatusCode == HttpStatusCode.NotFound) return;
         }
 
 
@@ -614,9 +501,43 @@ namespace YouTrack.REST.API.Clients.Standard
         public async Task<Intellisense> GetIntellisense(string project, string filter)
         {
             var url = IssuesUrls.GetIntellisense();
+            //parameters are always encoded (both the name and the value)
+            //https://github.com/restsharp/RestSharp/blob/master/RestSharp/RestClient.cs#L294
+            //https://github.com/restsharp/RestSharp/issues/892
+            var parameters = "?";
+            if (project != null)
+            {
+                parameters += $"project={HttpUtility.UrlPathEncode(project)}";
+            }
+
+            if (filter != null)
+            {
+                if (project != null)
+                    parameters += "&";
+                parameters += $"filter={HttpUtility.UrlPathEncode(filter)}";
+            }
+
+            url = url + parameters;
             var request = new YouTrackRestRequest(url, Method.GET);
-            var response2 = await RestClient.ExecuteTaskAsync(request);
-            var response = await RestClient.ExecuteTaskAsync<Intellisense>(request);
+            //parameters are always encoded (both the name and the value)
+            //https://github.com/restsharp/RestSharp/blob/master/RestSharp/RestClient.cs#L294
+            //https://github.com/restsharp/RestSharp/issues/892
+            //if (project != null)
+            //{
+            //    var test1 = HttpUtility.UrlPathEncode(project);
+            //    var test2 = WebUtility.UrlEncode(project);
+            //    request.AddParameter("project", project);
+            //}
+
+            //if (filter != null)
+            //{
+            //    var test1 = HttpUtility.UrlPathEncode(filter);
+            //    var test2 = WebUtility.UrlEncode(filter);
+            //    request.AddParameter("filter", test1);
+            //}
+
+            
+             var response = await RestClient.ExecuteTaskAsync<Intellisense>(request);
             return response.Data;
         }
 
@@ -625,14 +546,13 @@ namespace YouTrack.REST.API.Clients.Standard
         {
             return new IssueQueryBuilder();
         }
-
     }
 
 
     internal class SimpleText
     {
-        [JsonProperty(PropertyName = "text")]
-        public string Text { get; set; }
+        [JsonProperty(PropertyName = "text")] public string Text { get; set; }
+
         public SimpleText(string text)
         {
             Text = text;

@@ -119,7 +119,7 @@ namespace YouTrackClientVS.Services
 
         public async Task<YouTrackIntellisense> GetIntellisense(string project, string filter)
         {
-            return (await _youTrackClient.IssuesClient.GetIntellisense(null, null)).MapTo<YouTrackIntellisense>();
+            return (await _youTrackClient.IssuesClient.GetIntellisense(project, filter)).MapTo<YouTrackIntellisense>();
         }
 
         public async Task<IEnumerable<YouTrackComment>> GetComments(string issueId)
@@ -259,7 +259,7 @@ namespace YouTrackClientVS.Services
             int limit = 50,
             YouTrackStatusSearch? state = null,
             string project = null,
-            string author = null
+            string filter = null
         )
         {
 
@@ -285,11 +285,14 @@ namespace YouTrackClientVS.Services
                         break;
                 }
             }
-
-            if (author != null)
+            if (filter != null)
             {
-                builder.AddFilter($"Created:{author}");
+                builder.AddFilter(filter);
             }
+            //if (author != null)
+            //{
+            //    builder.AddFilter($"Created:{author}");
+            //}
 
             if (project != null)
                 return (await _youTrackClient.IssuesClient.GetIssuesByProject(project, builder)).MapTo<List<YouTrackIssue>>();

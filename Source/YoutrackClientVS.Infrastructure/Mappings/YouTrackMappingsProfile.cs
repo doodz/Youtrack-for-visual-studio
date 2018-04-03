@@ -2,6 +2,7 @@
 using YouTrack.REST.API.Models.Standard;
 using YouTrackClientVS.Contracts.Models.GitClientModels;
 using YouTrackClientVS.Contracts.Models.YouTrackClientModels;
+using YouTrackClientVS.Infrastructure.AutoCompleteTextBox;
 using YouTrackClientVS.Infrastructure.Utils;
 
 namespace YouTrackClientVS.Infrastructure.Mappings
@@ -54,7 +55,7 @@ namespace YouTrackClientVS.Infrastructure.Mappings
             CreateMap<Comment, YouTrackComment>().ConvertUsing<CommentTypeConverter>();
             CreateMap<User, YouTrackUser>();
             CreateMap<SuggestItem, YouTrackSuggestItem>().ConvertUsing<SuggestItemTypeConverter>();
-
+            CreateMap<YouTrackSuggestItem, AutoCompleteQueryResult>().ConvertUsing<SuggestItemTypeToAutoCompleteQueryConverter>();
             CreateMap<Attachment, YouTrackAttachment>();
 
 

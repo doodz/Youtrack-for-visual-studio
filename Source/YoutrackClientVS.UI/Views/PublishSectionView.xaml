@@ -55,7 +55,7 @@
 
             <ComboBox Grid.Row="1" Text="One" ItemsSource="{Binding Owners}" SelectedItem="{Binding SelectedOwner,Mode=TwoWay}" />
             <TextBox x:Name="RepositoryName" Grid.Row="2" Text="{bindings:ValidatedBinding RepositoryName}" controls:TextBoxHelper.Watermark="Repository name"/>
-            <TextBox Grid.Row="3" Text="{bindings:ValidatedBinding Description}" controls:TextBoxHelper.Watermark="Description" AcceptsReturn="True" MinLines="3">
+            <TextBox Grid.Row="3" Text="{bindings:ValidatedBinding Description}" controls:TextBoxHelper.Watermark="Descriptionription" AcceptsReturn="True" MinLines="3">
                 <TextBox.Style>
                     <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
                         <Setter Property="Visibility" Value="Visible"/>

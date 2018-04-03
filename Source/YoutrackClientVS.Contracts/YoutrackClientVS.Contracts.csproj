@@ -84,6 +84,9 @@
     <Compile Include="Events\NavigationEvent.cs" />
     <Compile Include="Events\ShowConfirmationEvent.cs" />
     <Compile Include="Events\ThemeChangedEvent.cs" />
+    <Compile Include="Interfaces\AutoCompleteTextBox\IAutoCompleteQuery.cs" />
+    <Compile Include="Interfaces\AutoCompleteTextBox\IAutoCompleteQueryResult.cs" />
+    <Compile Include="Interfaces\AutoCompleteTextBox\IAutoCompleteQuerySource.cs" />
     <Compile Include="Interfaces\IClosingable.cs" />
     <Compile Include="Interfaces\Services\IDataNotifier.cs" />
     <Compile Include="Interfaces\IMessageBoxService.cs" />
@@ -99,6 +102,7 @@
     <Compile Include="Interfaces\Services\IVsTools.cs" />
     <Compile Include="Interfaces\Services\IGitWatcher.cs" />
     <Compile Include="Interfaces\Services\IPageNavigationService.cs" />
+    <Compile Include="Interfaces\AutoCompleteTextBox\IAutoCompleteIntellisenseQuerySource.cs" />
     <Compile Include="Interfaces\ViewModels\ICommentViewModel.cs" />
     <Compile Include="Interfaces\ViewModels\ICreatePullRequestsViewModel.cs" />
     <Compile Include="Interfaces\ViewModels\IDiffWindowControlViewModel.cs" />

@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="D26DBBE5-2D8B-4829-8811-07D4D0D706FF" Version="0.00.1" Language="en-US" Publisher="doodsDev" />
+        <Identity Id="D26DBBE5-2D8B-4829-8811-07D4D0D706FF" Version="0.00.2" Language="en-US" Publisher="doods" />
         <DisplayName>Visual Studio YouTrack Extension</DisplayName>
-        <Description xml:space="preserve">Provides the integration.</Description>
+        <Descriptionription xml:space="preserve">Provides the integration.</Descriptionription>
+        <Description xml:space="preserve" >Youtrack for visual studio.</Description>
         <MoreInfo>https://github.com/doodz/Youtrack-for-visual-studio</MoreInfo>
         <ReleaseNotes>beta</ReleaseNotes>
         <Icon>logo.png</Icon>

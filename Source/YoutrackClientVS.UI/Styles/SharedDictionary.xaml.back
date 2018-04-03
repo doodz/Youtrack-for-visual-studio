@@ -15,8 +15,7 @@
         <styles:SharedResourceDictionary Source="pack://application:,,,/YouTrackClientVS.UI;component/Styles/TextBoxStyles.xaml"/>
         <styles:SharedResourceDictionary Source="pack://application:,,,/YouTrackClientVS.UI;component/Styles/TextBlockStyles.xaml"/>
         <styles:SharedResourceDictionary Source="pack://application:,,,/YouTrackClientVS.UI;component/Styles/CommonStyles.xaml"/>
-        <styles:SharedResourceDictionary Source="pack://application:,,,/YouTrackClientVS.UI;component/Styles/AutoCompleteTextBoxStyle.xaml" />
-        
+
         <!--THESE TWO LINES DETERMINES ACCENT AND BAR COLOR-->
     </ResourceDictionary.MergedDictionaries>
 

@@ -12,16 +12,22 @@
              xmlns:converters="clr-namespace:YouTrackClientVS.UI.Converters"
              xmlns:extensions="clr-namespace:YouTrackClientVS.UI.Extensions"
              xmlns:behaviours="clr-namespace:YouTrackClientVS.UI.Behaviours"
+             xmlns:autoCompleteTextBox="clr-namespace:YouTrackClientVS.UI.Controls.AutoCompleteTextBox"
+             xmlns:autoCompleteTextBox1="clr-namespace:YouTrackClientVS.Infrastructure.AutoCompleteTextBox;assembly=YouTrackClientVS.Infrastructure"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:models="clr-namespace:YouTrackClientVS.Contracts.Models;assembly=YouTrackClientVS.Contracts"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
              x:Name="PrView"
              d:DataContext="{d:DesignInstance viewModels:YouTrackIssuesMainViewModel,IsDesignTimeCreatable=False}">
     <UserControl.Resources>
         <ResourceDictionary>
+
             <ResourceDictionary.MergedDictionaries>
                 <styles:SharedResourceDictionary
                     Source="pack://application:,,,/YouTrackClientVS.UI;component/Styles/SharedDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -56,8 +62,8 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <Image Width="30" Height="30" Source="{Binding Author.Links.Avatar.Href}"
-                               VerticalAlignment="Center" />
+                        <!--<Image Width="30" Height="30" Source="{Binding Author.Links.Avatar.Href}"
+                               VerticalAlignment="Center" />-->
 
                         <Grid Grid.Row="0" Grid.Column="1" Margin="10, 5, 10, 5">
                             <Grid.RowDefinitions>
@@ -138,18 +144,42 @@
                           SelectedValue="{Binding SelectedStatus}"
                           SelectedValuePath="Value" />
                 <Border Grid.Column="3" BorderThickness="1" BorderBrush="Gray" Margin="5,0">
-                    <wpfControls:AutoCompleteTextBox
+
+
+                    <autoCompleteTextBox:AutoCompleteTextBox
+                        AutoCompleteQueryResultProvider="{Binding AutoCompleteQueryResultProvider,Mode=OneWay}"
+                        Text="{Binding IntellisenseSearchQuery,Mode=TwoWay}"
+                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Stretch"
+
+                        FontSize="20"
+                        PopupHeight="300">
+                        <autoCompleteTextBox:AutoCompleteTextBox.ItemTemplate>
+                            <DataTemplate DataType="{x:Type autoCompleteTextBox1:AutoCompleteQueryResult}">
+
+                                <TextBlock MaxWidth="280"
+                                           Margin="5 0 0 0"
+                                           TextWrapping="Wrap"
+
+                                           Text="{Binding Title}" />
+
+                            </DataTemplate>
+                        </autoCompleteTextBox:AutoCompleteTextBox.ItemTemplate>
+                    </autoCompleteTextBox:AutoCompleteTextBox>
+
+                    <!--<wpfControls:AutoCompleteTextBox
                         BorderThickness="0"
-                        SelectedItem="{Binding SelectedAuthor,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
-                        Provider="{Binding AuthorProvider}"
-                        DisplayMember="Login"
-                        Watermark="Filter by Author"
+                        Text="{Binding IntellisensSearch,Mode=TwoWay}"
+                        SelectedItem="{Binding SelectedSuggest,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                        Provider="{Binding SuggestProvider}"
+                        DisplayMember="Option"
+                        Watermark="Filter by Intelisens"
                         IconPlacement="Right">
                         <wpfControls:AutoCompleteTextBox.ItemTemplate>
-                            <DataTemplate DataType="youTrackClientModels:YouTrackUser">
+                            <DataTemplate DataType="youTrackClientModels:YouTrackSuggestItem">
                                 <TextBlock Foreground="Black"
                                            Background="White"
-                                           Text="{Binding Login,Mode=OneWay}" />
+                                           Text="{Binding Option,Mode=OneWay}" />
                             </DataTemplate>
                         </wpfControls:AutoCompleteTextBox.ItemTemplate>
                         <wpfControls:AutoCompleteTextBox.Icon>
@@ -164,7 +194,7 @@
                                 </Canvas>
                             </Viewbox>
                         </wpfControls:AutoCompleteTextBox.Icon>
-                    </wpfControls:AutoCompleteTextBox>
+                    </wpfControls:AutoCompleteTextBox>-->
                 </Border>
 
             </Grid>

@@ -43,5 +43,28 @@
     <Compile Include="ObservableObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Rx-Core">
+      <Version>2.2.5</Version>
+    </PackageReference>
+    <PackageReference Include="Rx-Interfaces">
+      <Version>2.2.5</Version>
+    </PackageReference>
+    <PackageReference Include="Rx-Linq">
+      <Version>2.2.5</Version>
+    </PackageReference>
+    <PackageReference Include="Rx-Main">
+      <Version>2.2.5</Version>
+    </PackageReference>
+    <PackageReference Include="Rx-PlatformServices">
+      <Version>2.2.5</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Source\YouTrackClientVS.Contracts\YouTrackClientVS.Contracts.csproj">
+      <Project>{528A613A-1D51-4B23-851B-2549261B580E}</Project>
+      <Name>YouTrackClientVS.Contracts</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

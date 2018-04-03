@@ -5,6 +5,9 @@
 //------------------------------------------------------------------------------
 
 using log4net;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -67,12 +70,20 @@ namespace YouTrackClientVS.VisualStudio.UI
         {
             Application.Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+            AppCenter.Start("e655d15d-cf4c-4d36-a09c-5518e4125367", typeof(Analytics), typeof(Crashes));
+            Analytics.TrackEvent("YouTrackClientVsPackage initialised");
+            AppCenter.LogLevel = LogLevel.Verbose;
+            //Analytics.TrackEvent("YouTrackClientVsPackage initialised", new Dictionary<string, string> {
+            //    { "Category", "Music" },
+            //    { "FileName", "favorite.avi"}
+            //});
         }
 
         #region Package Members
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
+
             _logger.Error("Unhandled YouTrackClientVsExtensions Error: " + e.ExceptionObject);
         }
 
