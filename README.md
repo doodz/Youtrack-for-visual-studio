@@ -1,6 +1,6 @@
 # Youtrack-for-visual-studio
  <a href="https://github.com/doodz/Youtrack-for-visual-studio">
-    <img alt="Youtrack-for-visual-studio" width="200" heigth="200" src="./YoutrackClientVS.VisualStudio.UI/logo.png">
+    <img alt="Youtrack-for-visual-studio" width="200" heigth="200" src="./Source/YoutrackClientVS.VisualStudio.UI/logo.png">
 <h2>Overview</h2>
 
 Visual Studio YouTrack Extension is a plugin for Visual Studio integration with Youtrack.
