@@ -6,7 +6,8 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Reflection;
-using Microsoft.TeamFoundation.Controls.WPF;
+using System.Windows.Forms;
+using Microsoft.TeamFoundation.Controls.WPF.TeamExplorer;
 using YouTrackClientVS.Contracts.Interfaces.Services;
 using YouTrackClientVS.Contracts.Interfaces.Views;
 using YouTrackClientVS.TeamFoundation.TeamFoundation;
@@ -35,7 +36,7 @@ namespace YouTrackClientVS.TeamFoundation.Sections
         public override void Initialize(object sender, SectionInitializeEventArgs e)
         {
             _appServiceProvider.YouTrackServiceProvider = ServiceProvider = e.ServiceProvider;
-            _section = GetSection(TeamExplorerConnectionsSectionId);
+            _section = GetSection(Guid.Parse(TeamExplorerPageIds.PendingChanges));
             base.Initialize(sender, e);
         }
 
@@ -43,19 +44,31 @@ namespace YouTrackClientVS.TeamFoundation.Sections
         {
             base.Loaded(sender, e);
 
-            var res = ((ITeamExplorerPage) ServiceProvider.GetService(typeof(ITeamExplorerPage)));
-            //var service = GetService<TeamExplorerViewModel>();
+            var page = ((TeamExplorerPageBase)ServiceProvider.GetService(typeof(ITeamExplorerPage)));
+
+            //var obj = (Microsoft.VisualStudio.TeamFoundation.VersionControl.PendingChanges.PendingChangesModelVS)page.Model;
+            //var obj2 = (Microsoft.TeamFoundation.VersionControl.Client.IPendingCheckinPendingChanges)page.Model;
+            
+
+            var model = GetService<TeamExplorerModel>();
+            //var viewModel = GetService<TeamExplorerViewModel>();
+
             //var pages = new List<ITeamExplorerPage>();
-            //if (service.CurrentPage != null)
-            //    pages.Add(service.CurrentPage);
-            //pages.AddRange(service.UndockedPages);
+
+            //if (viewModel.CurrentPage != null)
+            //    pages.Add(viewModel.CurrentPage);
+            //pages.AddRange(viewModel.UndockedPages);
             //var changesGuid = Guid.Parse(TeamExplorerPageIds.PendingChanges);
             //var changesPage = pages.FirstOrDefault(p => p.GetId() == changesGuid);
-            //var view = changesPage.PageContent as UserControl;
 
-            //Microsoft.VisualStudio.TeamFoundation.VersionControl.PendingChanges.PendingChangesPageVS
+            //var view = changesPage.PageContent as UserControl;
+            //(Microsoft.VisualStudio.TeamFoundation.VersionControl.PendingChanges.PendingChangesPageVS) model;
+            //Microsoft.VisualStudio.TeamFoundation.VersionControl.
+            // Microsoft.VisualStudio.TeamFoundation.
+            //Microsoft.VisualStudio.TeamFoundation.VersionControl.PendingChanges.PendingChangesPageVS;
 
             //var _labeledTextBox = view.FindName("commentTextBox") as LabeledTextBox;
+
         }
 
         protected ITeamExplorerSection GetSection(Guid section)

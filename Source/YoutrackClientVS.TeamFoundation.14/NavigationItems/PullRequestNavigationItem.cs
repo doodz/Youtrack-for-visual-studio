@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Microsoft.TeamFoundation.Controls;
+using System;
 using System.ComponentModel.Composition;
 using System.Reactive;
 using System.Reactive.Linq;
-using Microsoft.TeamFoundation.Controls;
 using YouTrackClientVS.Contracts.Events;
 using YouTrackClientVS.Contracts.Interfaces.Services;
 using YouTrackClientVS.Contracts.Models;
@@ -20,7 +20,7 @@ namespace YouTrackClientVS.TeamFoundation.NavigationItems
         private readonly IEventAggregatorService _eventAggregator;
         private readonly IUserInformationService _userInformationService;
         private readonly ICommandsService _commandService;
-        private IDisposable _observable;
+        private readonly IDisposable _observable;
         public const string PullRequestsNavigationItemId = "5245767A-B657-4F8E-BFEE-F04159F1DDA3";
 
         [ImportingConstructor]

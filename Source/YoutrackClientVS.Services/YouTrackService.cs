@@ -78,7 +78,17 @@ namespace YouTrackClientVS.Services
 
             _logger.Info($"Calling CreateYouTrackClient. Host: {youTrackCredentials.Host}");
             var credentials = new Credentials(youTrackCredentials.Login, youTrackCredentials.Password);
-            var apiConnection = new Connection(youTrackCredentials.Host, new Uri(youTrackCredentials.Host, $"{youTrackCredentials.Host.AbsolutePath}/rest"), credentials);
+
+            var apiUrl = youTrackCredentials.Host.AbsoluteUri;
+            if (!apiUrl.EndsWith("/"))
+                apiUrl += "/rest";
+            else
+            {
+                apiUrl += "rest";
+            }
+
+
+            var apiConnection = new Connection(youTrackCredentials.Host, new Uri(apiUrl), credentials);
             var client = new EnterpriseYouTrackClient(apiConnection);
             var user = await client.UserClient.Login();//will throw exception if not authenticated
             // await client.UserClient.GetCurrentUserInfo();
