@@ -43,7 +43,7 @@ namespace YouTrackClientVS.TeamFoundation.Sections
 
             var page = (TeamExplorerPageBase)ServiceProvider.GetService(typeof(ITeamExplorerPage));
 
-            var obj = (Microsoft.VisualStudio.TeamFoundation.VersionControl.PendingChanges.PendingChangesModelVS)page.Model;
+            //var obj = (Microsoft.VisualStudio.TeamFoundation.VersionControl.PendingChanges.PendingChangesModelVS)page.Model;
             //var obj2 = (Microsoft.TeamFoundation.VersionControl.Client.IPendingCheckinPendingChanges)page.Model;
 
             var model = GetService<TeamExplorerModel>();

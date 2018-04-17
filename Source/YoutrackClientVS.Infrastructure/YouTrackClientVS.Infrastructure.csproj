@@ -111,6 +111,7 @@
     <Compile Include="Extensions\LinqExtensions.cs" />
     <Compile Include="Extensions\MapperExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\UriExtension.cs" />
     <Compile Include="Extensions\ViewModelsExtensions.cs" />
     <Compile Include="GitClientVsException.cs" />
     <Compile Include="LoggerConfigurator.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="Utils\ExceptionMapper.cs" />
     <Compile Include="Utils\SuggestionProvider.cs" />
     <Compile Include="Utils\TimeConverter.cs" />
+    <Compile Include="Utils\UrlCombine.cs" />
     <Compile Include="ViewModelBase.cs" />
     <Compile Include="AddModeModel.cs" />
     <Compile Include="CommentTreeCollection.cs" />

@@ -86,8 +86,8 @@
                                 <TextBlock Margin="0,0,5,0">
                                     <Hyperlink NavigateUri="{Binding IssueLink}" RequestNavigate="GoToCommit">
                                         <TextBlock Foreground="CornflowerBlue">
-                                            <Run Text="#" />
-                                            <Run Text="{Binding Issue.Id}" />
+                                            <Run FontWeight="Bold"
+                                                 Text="{Binding Issue.Id}" />
                                         </TextBlock>
                                     </Hyperlink>
                                 </TextBlock>

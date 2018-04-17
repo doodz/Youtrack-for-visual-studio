@@ -25,8 +25,10 @@ namespace YouTrackClientVS.Services
         private readonly IEventAggregatorService _eventAggregator;
         private readonly IGitWatcher _gitWatcher;
         private IYouTrackClient _youTrackClient;
+
         private readonly ILog _logger =
             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public bool IsConnected => _youTrackClient != null;
 
         [ImportingConstructor]
@@ -75,7 +77,6 @@ namespace YouTrackClientVS.Services
 
         private async Task<IYouTrackClient> CreateYouTrackClientAsync(YouTrackCredentials youTrackCredentials)
         {
-
             _logger.Info($"Calling CreateYouTrackClient. Host: {youTrackCredentials.Host}");
             var credentials = new Credentials(youTrackCredentials.Login, youTrackCredentials.Password);
 
@@ -83,13 +84,11 @@ namespace YouTrackClientVS.Services
             if (!apiUrl.EndsWith("/"))
                 apiUrl += "/rest";
             else
-            {
                 apiUrl += "rest";
-            }
 
             var apiConnection = new Connection(youTrackCredentials.Host, new Uri(apiUrl), credentials);
             var client = new EnterpriseYouTrackClient(apiConnection);
-            var user = await client.UserClient.Login();//will throw exception if not authenticated
+            var user = await client.UserClient.Login(); //will throw exception if not authenticated
             // await client.UserClient.GetCurrentUserInfo();
             return client;
         }
@@ -104,7 +103,6 @@ namespace YouTrackClientVS.Services
 
         public async Task<IEnumerable<YouTrackProject>> GetAllProjects(bool verbose = false)
         {
-
             var projects = await _youTrackClient.ProjectsClient.GetAccessibleProjects(verbose);
             return projects.MapTo<List<YouTrackProject>>();
         }
@@ -117,7 +115,6 @@ namespace YouTrackClientVS.Services
 
         public async Task<YouTrackIssue> GetIssue(string id)
         {
-
             return (await _youTrackClient.IssuesClient.GetIssue(id)).MapTo<YouTrackIssue>();
         }
 
@@ -133,13 +130,13 @@ namespace YouTrackClientVS.Services
 
         public async Task<IEnumerable<YouTrackComment>> GetComments(string issueId)
         {
-
             return (await _youTrackClient.IssuesClient.GetCommentsForIssue(issueId)).MapTo<List<YouTrackComment>>();
         }
+
         public async Task<IEnumerable<YouTrackAttachment>> GetAttachments(string issueId)
         {
-
-            return (await _youTrackClient.IssuesClient.GetAttachmentsForIssue(issueId)).MapTo<List<YouTrackAttachment>>();
+            return (await _youTrackClient.IssuesClient.GetAttachmentsForIssue(issueId))
+                .MapTo<List<YouTrackAttachment>>();
         }
 
         public async Task<string> GetFileContent(string hash, string path)
@@ -260,7 +257,8 @@ namespace YouTrackClientVS.Services
                 .WithWikifyDescription(false);
             builder.AddFilter("State:unresolved");
 
-            return (await _youTrackClient.IssuesClient.GetIssuesByProject(projectId, builder)).MapTo<List<YouTrackIssue>>();
+            return (await _youTrackClient.IssuesClient.GetIssuesByProject(projectId, builder))
+                .MapTo<List<YouTrackIssue>>();
         }
 
         public async Task<IEnumerable<YouTrackIssue>> GetIssuesPage(
@@ -271,16 +269,12 @@ namespace YouTrackClientVS.Services
             string filter = null
         )
         {
-
-
             var builder = _youTrackClient.IssuesClient.GetIssueQueryBuilder()
                 .After(page * limit)
                 .Max(limit)
                 .WithWikifyDescription(false);
 
             if (state != null)
-            {
-                //TODO THE change that.
                 switch (state)
                 {
                     case YouTrackStatusSearch.InProgress:
@@ -293,18 +287,16 @@ namespace YouTrackClientVS.Services
                         builder.AddFilter(string.Concat("State:", state.ToString()));
                         break;
                 }
-            }
-            if (filter != null)
-            {
-                builder.AddFilter(filter);
-            }
+
+            if (filter != null) builder.AddFilter(filter);
             //if (author != null)
             //{
             //    builder.AddFilter($"Created:{author}");
             //}
 
             if (project != null)
-                return (await _youTrackClient.IssuesClient.GetIssuesByProject(project, builder)).MapTo<List<YouTrackIssue>>();
+                return (await _youTrackClient.IssuesClient.GetIssuesByProject(project, builder))
+                    .MapTo<List<YouTrackIssue>>();
             else
                 return (await _youTrackClient.IssuesClient.GetListIssues(builder)).MapTo<List<YouTrackIssue>>();
         }
@@ -398,7 +390,7 @@ namespace YouTrackClientVS.Services
 
         public Uri GetIssueUri(string issueId)
         {
-            return new Uri(_youTrackClient.ApiConnection.MainUrl + "/issue/" + issueId);
+            return _youTrackClient.ApiConnection.MainUrl.Combine($"issue/{issueId}");
         }
     }
 }
