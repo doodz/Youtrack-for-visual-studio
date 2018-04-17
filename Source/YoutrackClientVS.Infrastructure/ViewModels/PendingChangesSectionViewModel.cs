@@ -90,13 +90,13 @@ namespace YouTrackClientVS.Infrastructure.ViewModels
         public void InitializeCommands()
         {
             _initializeCommand = ReactiveCommand.CreateFromTask(_ => GetProjects());
-            _updateTicketCommand = ReactiveCommand.CreateFromTask(_ => UpdateTicket(), CanUpdateTicket());
-            _updateCommitCommand = ReactiveCommand.CreateFromTask(_ => UpdateCommit(), CanUpdateCommit());
+            _updateTicketCommand = ReactiveCommand.CreateFromTask(_ => UpdateTicketAsync(), CanUpdateTicket());
+            _updateCommitCommand = ReactiveCommand.CreateFromTask(_ => UpdateCommitAsync(), CanUpdateCommit());
         }
 
         protected override IEnumerable<IDisposable> SetupObservables()
         {
-            this.WhenAnyValue(x => x.SelectedProject).Subscribe(async _ => await GetTickets());
+            this.WhenAnyValue(x => x.SelectedProject).Subscribe(async _ => await GetTicketsAsync());
 
             //_appServiceProvider.GetService<ITeamExplorerPage>();
             yield break;
@@ -109,7 +109,7 @@ namespace YouTrackClientVS.Infrastructure.ViewModels
             return Observable.Return(true);
         }
 
-        private Task UpdateCommit()
+        private Task UpdateCommitAsync()
         {
             throw new NotImplementedException();
         }
@@ -120,13 +120,13 @@ namespace YouTrackClientVS.Infrastructure.ViewModels
 
         }
 
-        private Task UpdateTicket()
+        private Task UpdateTicketAsync()
         {
             throw new NotImplementedException();
         }
 
 
-        private async Task GetTickets()
+        private async Task GetTicketsAsync()
         {
             if (SelectedProject == null)
                 return;

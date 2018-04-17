@@ -62,7 +62,7 @@ namespace YouTrackClientVS.Services
                     Host = youTrackCredentials.Host,
                     IsLoggingIn = false
                 };
-                _youTrackClient = await CreateYouTrackClient(youTrackCredentials);
+                _youTrackClient = await CreateYouTrackClientAsync(youTrackCredentials);
 
                 connectionData.UserName = _youTrackClient.ApiConnection.Credentials.Login;
                 connectionData.IsLoggedIn = true;
@@ -73,7 +73,7 @@ namespace YouTrackClientVS.Services
             }
         }
 
-        private async Task<IYouTrackClient> CreateYouTrackClient(YouTrackCredentials youTrackCredentials)
+        private async Task<IYouTrackClient> CreateYouTrackClientAsync(YouTrackCredentials youTrackCredentials)
         {
 
             _logger.Info($"Calling CreateYouTrackClient. Host: {youTrackCredentials.Host}");
@@ -86,7 +86,6 @@ namespace YouTrackClientVS.Services
             {
                 apiUrl += "rest";
             }
-
 
             var apiConnection = new Connection(youTrackCredentials.Host, new Uri(apiUrl), credentials);
             var client = new EnterpriseYouTrackClient(apiConnection);

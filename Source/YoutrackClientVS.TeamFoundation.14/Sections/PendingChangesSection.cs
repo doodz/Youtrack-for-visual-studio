@@ -1,13 +1,10 @@
 ﻿using log4net;
 using Microsoft.TeamFoundation.Controls;
+using Microsoft.TeamFoundation.Controls.WPF.TeamExplorer;
 using Microsoft.TeamFoundation.Controls.WPF.TeamExplorer.Framework;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
 using System.Reflection;
-using System.Windows.Forms;
-using Microsoft.TeamFoundation.Controls.WPF.TeamExplorer;
 using YouTrackClientVS.Contracts.Interfaces.Services;
 using YouTrackClientVS.Contracts.Interfaces.Views;
 using YouTrackClientVS.TeamFoundation.TeamFoundation;
@@ -44,13 +41,14 @@ namespace YouTrackClientVS.TeamFoundation.Sections
         {
             base.Loaded(sender, e);
 
-            var page = ((TeamExplorerPageBase)ServiceProvider.GetService(typeof(ITeamExplorerPage)));
+            var page = (TeamExplorerPageBase)ServiceProvider.GetService(typeof(ITeamExplorerPage));
 
-            //var obj = (Microsoft.VisualStudio.TeamFoundation.VersionControl.PendingChanges.PendingChangesModelVS)page.Model;
+            var obj = (Microsoft.VisualStudio.TeamFoundation.VersionControl.PendingChanges.PendingChangesModelVS)page.Model;
             //var obj2 = (Microsoft.TeamFoundation.VersionControl.Client.IPendingCheckinPendingChanges)page.Model;
-            
 
             var model = GetService<TeamExplorerModel>();
+
+            var type = model.GetType();
             //var viewModel = GetService<TeamExplorerViewModel>();
 
             //var pages = new List<ITeamExplorerPage>();
