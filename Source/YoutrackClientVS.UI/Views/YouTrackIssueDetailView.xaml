@@ -85,9 +85,8 @@
                             <WrapPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Orientation="Horizontal">
                                 <TextBlock Margin="0,0,5,0">
                                     <Hyperlink NavigateUri="{Binding IssueLink}" RequestNavigate="GoToCommit">
-                                        <TextBlock Foreground="CornflowerBlue">
-                                            <Run Text="#" />
-                                            <Run Text="{Binding Issue.Id}" />
+                                        <TextBlock>
+                                            <Run FontWeight="Bold" Text="{Binding Issue.Id}" />
                                         </TextBlock>
                                     </Hyperlink>
                                 </TextBlock>

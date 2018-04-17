@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading.Tasks;
+using UrlCombineLib;
 using YouTrack.REST.API;
 using YouTrack.REST.API.Authentication;
 using YouTrack.REST.API.Interfaces;
@@ -398,7 +399,7 @@ namespace YouTrackClientVS.Services
 
         public Uri GetIssueUri(string issueId)
         {
-            return new Uri(_youTrackClient.ApiConnection.MainUrl + "/issue/" + issueId);
+            return _youTrackClient.ApiConnection.MainUrl.Combine("issue").Combine(issueId);
         }
     }
 }
