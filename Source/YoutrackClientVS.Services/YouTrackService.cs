@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading.Tasks;
+using MahApps.Metro.Controls;
+using UrlCombineLib;
 using YouTrack.REST.API;
 using YouTrack.REST.API.Authentication;
 using YouTrack.REST.API.Interfaces;
@@ -15,6 +17,7 @@ using YouTrackClientVS.Contracts.Models;
 using YouTrackClientVS.Contracts.Models.GitClientModels;
 using YouTrackClientVS.Contracts.Models.YouTrackClientModels;
 using YouTrackClientVS.Infrastructure.Extensions;
+using YouTrackClientVS.Infrastructure.Utils;
 
 namespace YouTrackClientVS.Services
 {
@@ -399,7 +402,7 @@ namespace YouTrackClientVS.Services
 
         public Uri GetIssueUri(string issueId)
         {
-            return new Uri(_youTrackClient.ApiConnection.MainUrl + "/issue/" + issueId);
+            return _youTrackClient.ApiConnection.MainUrl.Combine("issue").Combine(issueId);
         }
     }
 }
