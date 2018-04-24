@@ -27,7 +27,8 @@ Visual Studio 2015/2017 installed.
 Go to [Visual Studio Youtrack Extension](https://marketplace.visualstudio.com/items?itemName=Doods.Youtrack-for-visual-studio), download VSIX file and install it.
 You can also install it from within Visual Studio. ```Tools -> Extensions and Updates```.
 ## Changes
-
+24/04/2018 :
+Now, we can create an issue
 03/04/2018 :
 Add intelisense on YouTrack issue windows
 update tools
