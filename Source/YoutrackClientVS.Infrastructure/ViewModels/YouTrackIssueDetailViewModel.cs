@@ -220,8 +220,8 @@ namespace YouTrackClientVS.Infrastructure.ViewModels
             var tasks = new[]
             {
                 GetIssueInfo(id),
-                GetComments(id),
-                GetAttachments(id)
+                GetCommentsAsync(id),
+                GetAttachmentsAsync(id)
             };
 
             await Task.WhenAll(tasks);
@@ -251,15 +251,15 @@ namespace YouTrackClientVS.Infrastructure.ViewModels
             IssueLink = _youTrackClientService.GetIssueUri(id);
         }
 
-        private async Task GetComments(string id)
+        private async Task GetCommentsAsync(string id)
         {
-            //var comments = await _youTrackClientService.GetComments(id);
+            //var comments = await _youTrackClientService.GetCommentsAsync(id);
 
             await YouTrackCommentsViewModel.UpdateComments(id);
             //CreatePullRequestCommands(null);
         }
 
-        private async Task GetAttachments(string id)
+        private async Task GetAttachmentsAsync(string id)
         {
             await YouTrackAttachmentsViewModel.UpdateAttachments(id);
         }

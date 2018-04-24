@@ -159,28 +159,28 @@ namespace YouTrack.REST.API.Clients.Standard
                 locationHeader.Value.ToString().Substring(
                     locationHeader.Value.ToString().IndexOf(marker, StringComparison.OrdinalIgnoreCase) +
                     marker.Length);
+            //TODO do not forget !
+            //// For every custom field, apply a command
+            //var customFields = issue.Fields
+            //    .Where(field => !ReservedFields.Contains(field.Name.ToLower()))
+            //    .ToDictionary(field => field.Name, field => field.Value);
 
-            // For every custom field, apply a command
-            var customFields = issue.Fields
-                .Where(field => !ReservedFields.Contains(field.Name.ToLower()))
-                .ToDictionary(field => field.Name, field => field.Value);
+            //foreach (var customField in customFields)
+            //    if (!(customField.Value is string) && customField.Value is System.Collections.IEnumerable enumerable)
+            //        await ApplyCommand(issueId, $"{customField.Key} {string.Join(" ", enumerable.OfType<string>())}",
+            //            string.Empty);
+            //    else if (customField.Value is DateTime dateTime)
+            //        await ApplyCommand(issueId, $"{customField.Key} {dateTime:s}", string.Empty);
+            //    else if (customField.Value is DateTimeOffset dateTimeOffset)
+            //        await ApplyCommand(issueId, $"{customField.Key} {dateTimeOffset:s}", string.Empty);
+            //    else
+            //        await ApplyCommand(issueId, $"{customField.Key} {customField.Value}", string.Empty);
 
-            foreach (var customField in customFields)
-                if (!(customField.Value is string) && customField.Value is System.Collections.IEnumerable enumerable)
-                    await ApplyCommand(issueId, $"{customField.Key} {string.Join(" ", enumerable.OfType<string>())}",
-                        string.Empty);
-                else if (customField.Value is DateTime dateTime)
-                    await ApplyCommand(issueId, $"{customField.Key} {dateTime:s}", string.Empty);
-                else if (customField.Value is DateTimeOffset dateTimeOffset)
-                    await ApplyCommand(issueId, $"{customField.Key} {dateTimeOffset:s}", string.Empty);
-                else
-                    await ApplyCommand(issueId, $"{customField.Key} {customField.Value}", string.Empty);
+            //// Add comments?
+            //foreach (var issueComment in issue.Comments) await ApplyCommand(issueId, "comment", issueComment.Text, runAs: issueComment.Author);
 
-            // Add comments?
-            foreach (var issueComment in issue.Comments) await ApplyCommand(issueId, "comment", issueComment.Text, runAs: issueComment.Author);
-
-            // Add tags?
-            foreach (var issueTag in issue.Tags) await ApplyCommand(issueId, $"tag {issueTag.Value}");
+            //// Add tags?
+            //foreach (var issueTag in issue.Tags) await ApplyCommand(issueId, $"tag {issueTag.Value}");
 
             return issueId;
         }
@@ -536,8 +536,8 @@ namespace YouTrack.REST.API.Clients.Standard
             //    request.AddParameter("filter", test1);
             //}
 
-            
-             var response = await RestClient.ExecuteTaskAsync<Intellisense>(request);
+
+            var response = await RestClient.ExecuteTaskAsync<Intellisense>(request);
             return response.Data;
         }
 

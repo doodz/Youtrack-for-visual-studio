@@ -148,7 +148,7 @@
     <Compile Include="ViewModels\YouTrackCommentsViewModel.cs" />
     <Compile Include="ViewModels\YouTrackIssueDetailViewModel.cs" />
     <Compile Include="ViewModels\PublishSectionViewModel.cs" />
-    <Compile Include="ViewModels\CreatePullRequestsViewModel.cs" />
+    <Compile Include="ViewModels\CreateIssueViewModel.cs" />
     <Compile Include="ViewModels\CreateRepositoriesDialogViewModel.cs" />
     <Compile Include="ViewModels\CloneRepositoriesDialogViewModel.cs" />
     <Compile Include="ViewModels\LoginDialogViewModel.cs" />

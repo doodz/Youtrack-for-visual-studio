@@ -104,7 +104,7 @@
     <Compile Include="Interfaces\Services\IPageNavigationService.cs" />
     <Compile Include="Interfaces\AutoCompleteTextBox\IAutoCompleteIntellisenseQuerySource.cs" />
     <Compile Include="Interfaces\ViewModels\ICommentViewModel.cs" />
-    <Compile Include="Interfaces\ViewModels\ICreatePullRequestsViewModel.cs" />
+    <Compile Include="Interfaces\ViewModels\ICreateIssueViewModel.cs" />
     <Compile Include="Interfaces\ViewModels\IDiffWindowControlViewModel.cs" />
     <Compile Include="Interfaces\ViewModels\IPendingChangesSectionViewModel.cs" />
     <Compile Include="Interfaces\ViewModels\IPublishSectionViewModel.cs" />

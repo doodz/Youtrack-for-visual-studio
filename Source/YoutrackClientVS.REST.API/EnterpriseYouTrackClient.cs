@@ -20,6 +20,7 @@ namespace YouTrack.REST.API
         public IUserClient UserClient { get; }
         public IProjectsClient ProjectsClient { get; }
         public IIssuesClient IssuesClient { get; }
+
         public ITimeTrackingClient TimeTrackingClient { get; }
         public IUserManagementClient UserManagementClient { get; }
         public ITimeTrackingManagementClient TimeTrackingManagementClient { get; }
@@ -36,6 +37,8 @@ namespace YouTrack.REST.API
             IssuesClient = new IssuesClient(client, ApiConnection);
 
             UserManagementClient = new UserManagementClient(client, ApiConnection);
+
+
             //PullRequestsClient = new EnterprisePullRequestsClient(client, ApiConnection);
             //TeamsClient = new EnterpriseTeamsClient(client, ApiConnection);
         }

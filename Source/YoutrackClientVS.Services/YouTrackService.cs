@@ -107,6 +107,12 @@ namespace YouTrackClientVS.Services
             return projects.MapTo<List<YouTrackProject>>();
         }
 
+        //public async Task<IEnumerable<YouTrackProject>> GetGroups(string username)
+        //{
+        //    var projects = await _youTrackClient.UserManagementClient.GetGroupsForUser(username);
+        //    return projects.MapTo<List<youtr>>();
+        //}
+
         public async Task<IEnumerable<GitTeam>> GetTeams()
         {
             var teams = await _youTrackClient.TeamsClient.GetTeams();
@@ -116,6 +122,11 @@ namespace YouTrackClientVS.Services
         public async Task<YouTrackIssue> GetIssue(string id)
         {
             return (await _youTrackClient.IssuesClient.GetIssue(id)).MapTo<YouTrackIssue>();
+        }
+
+        public async Task CreateIssue(string projectId, YouTrackIssue youTrackIssue)
+        {
+            await _youTrackClient.IssuesClient.CreateIssue(projectId, youTrackIssue.MapTo<Issue>());
         }
 
         public async Task<IEnumerable<YouTrackUser>> GetUsers()
@@ -345,11 +356,7 @@ namespace YouTrackClientVS.Services
                 _gitWatcher.ActiveRepo.Owner, id);
         }
 
-        public async Task CreatePullRequest(GitPullRequest gitPullRequest)
-        {
-            await _youTrackClient.PullRequestsClient.CreatePullRequest(gitPullRequest.MapTo<PullRequest>(),
-                _gitWatcher.ActiveRepo.Name, _gitWatcher.ActiveRepo.Owner);
-        }
+
 
         public async Task UpdatePullRequest(GitPullRequest gitPullRequest)
         {
@@ -392,5 +399,6 @@ namespace YouTrackClientVS.Services
         {
             return _youTrackClient.ApiConnection.MainUrl.Combine($"issue/{issueId}");
         }
+
     }
 }

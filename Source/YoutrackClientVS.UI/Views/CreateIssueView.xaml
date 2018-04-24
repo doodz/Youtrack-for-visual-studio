@@ -11,10 +11,11 @@
              xmlns:bindings="clr-namespace:YouTrackClientVS.UI.Bindings"
              xmlns:converters="clr-namespace:YouTrackClientVS.UI.Converters"
              xmlns:ui="clr-namespace:YouTrackClientVS.UI"
+             xmlns:youTrackClientModels="clr-namespace:YouTrackClientVS.Contracts.Models.YouTrackClientModels;assembly=YouTrackClientVS.Contracts"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
               FocusManager.FocusedElement="{Binding ElementName=TitleBox}"
-             d:DataContext="{d:DesignInstance viewModels:CreatePullRequestsViewModel,IsDesignTimeCreatable=False}" 
+             d:DataContext="{d:DesignInstance viewModels:CreateIssueViewModel,IsDesignTimeCreatable=False}" 
              x:Name="CreatePullRequestView"
              >
     <UserControl.Resources>
@@ -23,7 +24,8 @@
                 <styles:SharedResourceDictionary Source="pack://application:,,,/YouTrackClientVS.UI;component/Styles/SharedDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <DataTemplate x:Key="ComboboxBranchTemplate">
+            <DataTemplate x:Key="ComboboxYouTrackProjectTemplate"
+                          DataType="youTrackClientModels:YouTrackProject">
                 <TextBlock Text="{Binding Name}"/>
             </DataTemplate>
             
@@ -70,25 +72,35 @@
                 </Grid.ColumnDefinitions>
                 
                 <controls2:BranchIcon />
-                <ComboBox Grid.Column="1" SelectedItem="{bindings:ValidatedBinding SourceBranch,Mode=TwoWay}" ItemsSource="{Binding Branches}" ItemTemplate="{StaticResource ComboboxBranchTemplate}">
+                <ComboBox Grid.Column="1"
+                         
+                          SelectedItem="{bindings:ValidatedBinding SelectedProject,Mode=TwoWay}"
+                          ItemsSource="{Binding LocalProjects}"
+                          ItemTemplate="{StaticResource ComboboxYouTrackProjectTemplate}">
                     <Validation.ErrorTemplate>
                         <ControlTemplate>
                             <AdornedElementPlaceholder />
                         </ControlTemplate>
                     </Validation.ErrorTemplate>
                 </ComboBox>
-                <TextBlock Grid.Column="2" Margin="0,0,5,0" Text="&#x2794;" VerticalAlignment="Center" />
+                <!--<TextBlock Grid.Column="2"
+                           Margin="0,0,5,0"
+                           Text="&#x2794;"
+                           VerticalAlignment="Center" />
                 <controls2:BranchIcon Grid.Column="3" />
-                <ComboBox Grid.Column="4" SelectedItem="{bindings:ValidatedBinding DestinationBranch,Mode=TwoWay}" ItemsSource="{Binding Branches}" ItemTemplate="{StaticResource ComboboxBranchTemplate}">
+                <ComboBox Grid.Column="4"
+                          SelectedItem="{bindings:ValidatedBinding PermittedGroup,Mode=TwoWay}"
+                          ItemsSource="{Binding SelectedpermittedGroup}"
+                          ItemTemplate="{StaticResource ComboboxBranchTemplate}">
                     <Validation.ErrorTemplate>
                         <ControlTemplate>
                             <AdornedElementPlaceholder />
                         </ControlTemplate>
                     </Validation.ErrorTemplate>
-                </ComboBox>
+                </ComboBox>-->
             </Grid>
 
-            <GroupBox Header="Info" Grid.Row="1" Visibility="{Binding RemotePullRequest,Converter={converters:NullToNonVisibilityConverter}}">
+            <!--<GroupBox Header="Info" Grid.Row="1" Visibility="{Binding RemotePullRequest,Converter={converters:NullToNonVisibilityConverter}}">
                 <GroupBox.HeaderTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -110,7 +122,7 @@
                            CommandParameter="{Binding Id}"/>
 
                 </TextBlock>
-            </GroupBox>
+            </GroupBox>-->
 
 
             <Grid Grid.Row="2">
@@ -128,7 +140,7 @@
                 <TextBox Grid.Row="1" Text="{bindings:ValidatedBinding Title}" controls:TextBoxHelper.Watermark="Title" />
                 <TextBox Grid.Row="2" Text="{bindings:ValidatedBinding Description}" controls:TextBoxHelper.Watermark="Descriptionription" AcceptsReturn="True" MinLines="3" MaxLines="6"/>
 
-                <controls2:ReviewersView Grid.Row="3" />
+                <!--<controls2:ReviewersView Grid.Row="3" />
 
                 <CheckBox Grid.Row="4" VerticalAlignment="Center" IsChecked="{Binding CloseSourceBranch,Mode=TwoWay}" Content="Close Source Branch?">
                     <CheckBox.Style>
@@ -141,10 +153,10 @@
                             </Style.Triggers>
                         </Style>
                     </CheckBox.Style>
-                </CheckBox>
+                </CheckBox>-->
 
 
-                <Button Grid.Row="4" Margin="5" Command="{Binding CreateNewPullRequestCommand}" HorizontalAlignment="Right" Content="{x:Static ui:Resources.Create}" >
+                <Button Grid.Row="4" Margin="5" Command="{Binding CreateNewUssueCommand}" HorizontalAlignment="Right" Content="{x:Static ui:Resources.Create}" >
                     <Button.Style>
                         <Style TargetType="Button" BasedOn="{StaticResource MetroFlatButton}"/>
                     </Button.Style>
@@ -154,7 +166,7 @@
 
             <GridSplitter Grid.Row="3" HorizontalAlignment="Stretch" />
 
-            <controls2:PullRequestDiffView Grid.Row="4" Margin="0,0,0,20" DataContext="{Binding PullRequestDiffViewModel}"/>
+            <!--<controls2:PullRequestDiffView Grid.Row="4" Margin="0,0,0,20" DataContext="{Binding PullRequestDiffViewModel}"/>-->
 
         </Grid>
     </Grid>

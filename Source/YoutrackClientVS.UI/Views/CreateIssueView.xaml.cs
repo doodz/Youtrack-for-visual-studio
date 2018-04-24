@@ -14,7 +14,7 @@ namespace YouTrackClientVS.UI.Views
     {
 
         [ImportingConstructor]
-        public CreateIssueView(ICreatePullRequestsViewModel vm)
+        public CreateIssueView(ICreateIssueViewModel vm)
         {
             DataContext = vm;
             InitializeComponent();

@@ -14,6 +14,7 @@ namespace YouTrackClientVS.Contracts.Interfaces.Services
         Task LoginAsync(YouTrackCredentials youTrackCredentials);
         void Logout();
         Task<IEnumerable<YouTrackProject>> GetAllProjects(bool verbose = false);
+
         Task<GitRemoteRepository> CreateRepositoryAsync(GitRemoteRepository newRepository);
         Task<IEnumerable<GitBranch>> GetBranches();
         Task<IEnumerable<GitTeam>> GetTeams();
@@ -27,7 +28,7 @@ namespace YouTrackClientVS.Contracts.Interfaces.Services
         Task<IEnumerable<YouTrackUser>> GetUsers();
         Task<YouTrackIntellisense> GetIntellisense(string project, string filter);
         bool IsOriginRepo(GitRemoteRepository gitRemoteRepository);
-        Task CreatePullRequest(GitPullRequest gitPullRequest);
+        Task CreateIssue(string projectId, YouTrackIssue youTrackIssue);
         Task<YouTrackIssue> GetIssue(string id);
         Task<IEnumerable<YouTrackComment>> GetComments(string issueId);
         Task<IEnumerable<YouTrackAttachment>> GetAttachments(string issueId);

@@ -208,7 +208,7 @@ namespace YouTrackClientVS.Infrastructure.ViewModels
 
             _goToCreateNewIssueCommand =
                 ReactiveCommand.Create(() => { _pageNavigationService.Navigate<ICreateIssueView>(); },
-                    Observable.Return(false));
+                    Observable.Return(true));
             _goToDetailsCommand =
                 ReactiveCommand.Create<YouTrackIssue>(x =>
                     _pageNavigationService.Navigate<IYouTrackIssueDetailView>(x.Id));

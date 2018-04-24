@@ -1,11 +1,10 @@
+using log4net;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using log4net;
-using RestSharp;
-using YouTrack.REST.API.Authentication;
 using YouTrack.REST.API.Exceptions;
 using YouTrack.REST.API.Models.Standard;
 using YouTrack.REST.API.QueryBuilders;
@@ -33,7 +32,7 @@ namespace YouTrack.REST.API.Wrappers
             AddHandler("text/x-json", serializer);
             AddHandler("text/javascript", serializer);
             AddHandler("*+json", serializer);
-           
+
             //var auth = new Authenticator(connection.Credentials);
             //Authenticator = auth.CreatedAuthenticator;
             FollowRedirects = false;
@@ -49,7 +48,7 @@ namespace YouTrack.REST.API.Wrappers
             _logger.Info($"Calling ExecuteTaskAsync. BaseUrl: {BaseUrl} Resource: {request.Resource} Parameters: {string.Join(", ", request.Parameters)}");
             AddHeaders(request);
             var response = await base.ExecuteTaskAsync<T>(request);
-            response = await RedirectIfNeededAndGetResponse(response, request);
+            response = await RedirectIfNeededAndGetResponseAsync(response, request);
             CheckResponseStatusCode(response);
             return response;
         }
@@ -59,7 +58,7 @@ namespace YouTrack.REST.API.Wrappers
             _logger.Info($"Calling ExecuteTaskAsync. BaseUrl: {BaseUrl} Resource: {request.Resource} Parameters: {string.Join(", ", request.Parameters)}");
             AddHeaders(request);
             var response = await base.ExecuteTaskAsync(request);
-            response = await RedirectIfNeededAndGetResponse(response, request);
+            response = await RedirectIfNeededAndGetResponseAsync(response, request);
             CheckResponseStatusCode(response);
             return response;
         }
@@ -101,7 +100,7 @@ namespace YouTrack.REST.API.Wrappers
         }
 
 
-        private async Task<IRestResponse<T>> RedirectIfNeededAndGetResponse<T>(IRestResponse<T> response,
+        private async Task<IRestResponse<T>> RedirectIfNeededAndGetResponseAsync<T>(IRestResponse<T> response,
             IRestRequest request)
         {
             while (response.StatusCode == HttpStatusCode.Redirect)
@@ -118,7 +117,7 @@ namespace YouTrack.REST.API.Wrappers
             return response;
         }
 
-        private async Task<IRestResponse> RedirectIfNeededAndGetResponse(IRestResponse response, IRestRequest request)
+        private async Task<IRestResponse> RedirectIfNeededAndGetResponseAsync(IRestResponse response, IRestRequest request)
         {
             while (response.StatusCode == HttpStatusCode.Redirect)
             {
