@@ -44,5 +44,6 @@ On login view you can click project for open issue or right click
 
 <img alt="screenshot01" src="./Docs/screenshots/Team_Explorer_Connection_fuzziness.png">
 <img alt="screenshot01" src="./Docs/screenshots/YouTrack_Issues_View.png">
+<img alt="screenshot01" src="./Docs/screenshots/Create_New_Issue.png">
 
 ## Licence
