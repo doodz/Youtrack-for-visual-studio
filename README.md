@@ -29,8 +29,10 @@ You can also install it from within Visual Studio. ```Tools -> Extensions and Up
 ## Changes
 24/04/2018 :
 Now, we can create an issue
+
 09/04/2018 : 
 Fix error Login exception - remote name see : https://github.com/doodz/Youtrack-for-visual-studio/issues/1
+
 03/04/2018 :
 Add intelisense on YouTrack issue windows
 update tools
