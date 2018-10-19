@@ -1,5 +1,7 @@
 # Youtrack-for-visual-studio
 
+[![GuardRails badge](https://badges.production.guardrails.io/doodz/Youtrack-for-visual-studio.svg)](https://www.guardrails.io)
+
  <a href="https://marketplace.visualstudio.com/items?itemName=Doods.Youtrack-for-visual-studio">
     <img alt="Youtrack-for-visual-studio" width="200" heigth="200" src="./Source/YoutrackClientVS.VisualStudio.UI/logo.png">
  
